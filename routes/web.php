@@ -14,6 +14,7 @@ Route::get('/auth-redirect', function () {
 
 
 
+// Guest Login
 Route::view('/', 'LandingPage');
 
 Route::get('/admin/login', [AdminController::class, 'ShowLoginForm'])->name('admin.login.index');
@@ -22,15 +23,45 @@ Route::post('/Login', [AdminController::class, 'Login'])->name('admin.login');
 
 Route::get('/student/login', [StudentController::class, 'showLoginStudent'])->name('student.login.form');
 Route::post('/student/Login', [StudentController::class, 'Login'])->name('student.login');
-Route::get('/History', [StudentController::class, 'History'])->name('student.history');
 
+
+// Student
 Route::middleware('auth:student')->prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+    Route::get('/createaspiration', [StudentController::class, 'createaspiration'])->name('create.aspiration');
+    Route::post('/storeaspirations', [StudentController::class, 'storeaspirations'])->name('storeaspirations');
+    Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
+    Route::get('/history', [StudentController::class, 'history'])->name('history');
     Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
 });
 
+
+// Admin
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/user-management', [AdminController::class, 'UserManagement'])->name('user.management');
+
+    Route::get('/createstudents', [AdminController::class, 'createstudent'])->name('create.student');
+    Route::post('/students', [AdminController::class, 'storestudent'])->name('store.student');
+    Route::get('/students/{id}/edit', [AdminController::class, 'editstudent'])->name('edit.student');
+    Route::put('/students/{id}', [AdminController::class, 'updatestudent'])->name('update.student');
+    Route::delete('/students/{id}', [AdminController::class, 'deletestudent'])->name('delete.student');
+
+
+    Route::get('/category-management', [AdminController::class, 'CategoryManagement'])->name('category.management');
+    Route::post('/categories', [AdminController::class, 'storecategory'])->name('store.category');
+    Route::get('/categories/create', [AdminController::class, 'createcategory'])->name('create.category');
+    Route::put('/categories/{id}', [AdminController::class, 'updatecategory'])->name('update.category');
+    route::delete('/categories/{id}', [AdminController::class, 'deletecategory'])->name('delete.category');
+
+
+    Route::get('/aspirations-management', [AdminController::class, 'ManagementAspirations'])->name('management.aspiration');
+    Route::get('/show-aspirations/{id}', [AdminController::class, 'showaspirations'])->name('show.aspirations');
+    Route::post('/management/aspirations/{id}/feedback', [AdminController::class, 'storeFeedback'])->name('aspirations.feedback');
+    Route::delete('/management/aspirations/{id}', [AdminController::class, 'deleteaspiration'])->name('delete.aspiration');
+
+
+
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 });
 
@@ -40,38 +71,61 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
 
 
+// Demo
 
-
-
-
-
-// use App\Http\Controllers\StudentController;
 // use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\{AdminController, StudentController};
+
+// Route::get('/auth-redirect', function () {
+//     $intendedUrl = session()->get('url.intended');
+
+//     if ($intendedUrl && str_contains($intendedUrl, '/admin')) {
+//         return redirect()->route('admin.login.form');
+//     }
+//     return redirect()->route('student.login.form');
+// })->name('login');
 
 
+// // Guest Login
+// Route::view('/', 'LandingPage');
 
+// Route::get('/admin/login', [AdminController::class, 'ShowLoginForm'])->name('admin.login.index');
+// Route::get('/admin/Login', [AdminController::class, 'ShowLoginForm'])->name('admin.login.form');
+// Route::post('/Login', [AdminController::class, 'Login'])->name('admin.login');
 
-// // Admin
-// Route::get('/admin/login', [App\Http\Controllers\AdminController::class, 'ShowLoginForm'])->name('login');
-// Route::get('/admin/Login',[App\Http\Controllers\AdminController::class, 'ShowLoginForm'])->name('admin.login.form');
-// Route::post('/Login', [App\Http\Controllers\AdminController::class, 'Login'])->name('admin.login');
-
-
-// // Student
-// Route::get('Login',[App\Http\Controllers\StudentController::class, 'Login'])->name('login');
-// // Route::get('/', [StudentController::class, 'showLoginStudent'])->name('student.login.form');
-// Route::get('/', [StudentController::class, 'showLoginStudent'])->name('login');
+// Route::get('/student/login', [StudentController::class, 'showLoginStudent'])->name('student.login.form');
 // Route::post('/student/Login', [StudentController::class, 'Login'])->name('student.login');
-// Route::get('/History', [StudentController::class, 'History'])->name('student.history');
 
-// // Middleware Student
-// Route::middleware('auth:student')->prefix('student')->name('student.')->group(function () {
+
+// // Student (DEMO VERSION: No Middleware)
+// Route::prefix('student')->name('student.')->group(function () {
 //     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+//     Route::get('/createaspiration', [StudentController::class, 'createaspiration'])->name('create.aspiration');
+//     Route::post('/storeaspirations', [StudentController::class, 'storeaspirations'])->name('storeaspirations');
+//     Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
+//     Route::get('/history', [StudentController::class, 'history'])->name('history');
 //     Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
 // });
 
-// // Middleware Admin
-// Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
-//     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
-//     Route::post('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('logout');
+
+// // Admin (DEMO VERSION: No Middleware)
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+//     Route::get('/user-management', [AdminController::class, 'UserManagement'])->name('user.management');
+
+//     Route::get('/createstudents', [AdminController::class, 'createstudent'])->name('create.student');
+//     Route::post('/students', [AdminController::class, 'storestudent'])->name('store.student');
+//     Route::get('/students/{id}/edit', [AdminController::class, 'editstudent'])->name('edit.student');
+//     Route::put('/students/{id}', [AdminController::class, 'updatestudent'])->name('update.student');
+//     Route::delete('/students/{id}', [AdminController::class, 'deletestudent'])->name('delete.student');
+
+//     Route::get('/category-management', [AdminController::class, 'CategoryManagement'])->name('category.management');
+//     Route::post('/categories', [AdminController::class, 'storecategory'])->name('store.category');
+//     Route::get('/categories/create', [AdminController::class, 'createcategory'])->name('create.category');
+//     Route::put('/categories/{id}', [AdminController::class, 'updatecategory'])->name('update.category');
+//     Route::delete('/categories/{id}', [AdminController::class, 'deletecategory'])->name('delete.category');
+
+//     Route::get('/aspirations-management', [AdminController::class, 'ManagementAspirations'])->name('management.aspiration');
+
+//     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 // });

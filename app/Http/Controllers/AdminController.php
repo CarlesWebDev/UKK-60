@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\admin;
 use Illuminate\Http\Request;
+use App\Models\{Aspiration, Category, Student, admin, feedback};
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function ShowLoginForm()
     {
-        if(auth()->guard('admin')->check()) {
+        if (auth()->guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
         return view('auth.adminlogin');
@@ -24,66 +21,232 @@ class AdminController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string|min:8',
         ]);
+
         if (auth()->guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
+
+
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $total = Aspiration::count();
+        $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
+        $aspirationdone = Aspiration::where('status', 'completed')->count();
+
+        $Dataaspirations = Aspiration::with(['student', 'category'])->latest()->paginate(5)->withQueryString();
+        $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
+
+
+        return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function UserManagement(Request $request)
     {
-        //
+        $query = Student::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('nisn', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('grade') && $request->grade !== 'Semua Kelas') {
+            $query->where('grade', $request->grade);
+        }
+
+        $grades = Student::select('grade')->distinct()->orderBy('grade', 'asc')->pluck('grade');
+
+        $students = $query->latest()->paginate(5)->withQueryString();
+        $totalStudents = Student::count();
+        $totalClasses = Student::distinct('grade')->count('grade');
+
+        return view('admin.userManagement', compact('students', 'totalStudents', 'totalClasses', 'grades'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function CategoryManagement(Request $request)
     {
-        //
+        $query = Category::query();
+
+        if ($request->filled('search')) {
+            $query->where('category_name', 'like', '%' . $request->search . '%');
+        }
+
+        $categories = $query->latest()->paginate(5)->withQueryString();
+
+        return view('admin.managementcategory', compact('categories'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(admin $admin)
+    public function createstudent()
     {
-        //
+        return view('admin.createstudent');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(admin $admin)
+    public function storestudent(Request $request)
     {
-        //
+        $request->validate([
+            'nisn' => 'required|numeric|unique:students,nisn|min:10',
+            'name' => 'required|string|max:255',
+            'grade' => 'required|string|max:10',
+            'password' => 'required|string|min:8',
+        ]);
+
+        Student::create([
+            'nisn' => $request->nisn,
+            'name' => $request->name,
+            'grade' => $request->grade,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()->route('admin.user.management')->with('success', 'Student created successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, admin $admin)
+    public function editstudent($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('admin.editstudent', compact('student'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(admin $admin)
+    public function updatestudent(Request $request, $id)
     {
-        //
+        $student = Student::findOrFail($id);
+
+        $request->validate([
+            'nisn' => 'required|numeric|min:10|unique:students,nisn,' . $student->id,
+            'name' => 'required|string|max:255',
+            'grade' => 'required|string|max:10',
+            'password' => 'nullable|string|min:8',
+        ]);
+
+        if ($request->filled('password')) {
+            $student->password = bcrypt($request->password);
+        }
+
+        $student->nisn = $request->nisn;
+        $student->name = $request->name;
+        $student->grade = $request->grade;
+        $student->save();
+
+        return redirect()->route('admin.user.management')->with('success', 'Student updated successfully.');
     }
+
+    public function deletestudent($id)
+    {
+        $student = Student::findOrFail($id);
+        $student->delete();
+
+        return redirect()->route('admin.user.management')->with('success', 'Student deleted successfully.');
+    }
+
+    public function ManagementAspirations(Request $request)
+    {
+        $query = Aspiration::with(['student', 'category']);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%");
+            });
+        }
+
+        $aspirations = $query->latest()->paginate(5)->withQueryString();
+
+        return view('admin.managementaspirations', compact('aspirations'));
+    }
+
+    public function showaspirations($id)
+    {
+        $aspiration = Aspiration::with(['student', 'category', 'feedback'])->findOrFail($id);
+        return view('admin.showaspirations', compact('aspiration'));
+    }
+
+    public function storeFeedback(Request $request, $id)
+    {
+        $request->validate(array(
+            'status' => 'required|in:pending,progress,completed,rejected',
+            'information' => 'required|string',
+        ));
+
+        $aspiration = Aspiration::findOrFail($id);
+        $adminId = auth()->guard('admin')->id();
+
+        if ($aspiration->feedback_id) {
+            $feedback = feedback::findOrFail($aspiration->feedback_id);
+        } else {
+            $feedback = new feedback();
+        }
+
+        $feedback->information = $request->information;
+        $feedback->admin_id = $adminId;
+        $feedback->save();
+
+        $aspiration->feedback_id = $feedback->id;
+        $aspiration->status = $request->status;
+        $aspiration->save();
+
+        return redirect()->route('admin.management.aspiration')->with('success', 'Status dan feedback berhasil diperbarui.');
+    }
+
+    public function deleteaspiration($id)
+    {
+        $aspiration = Aspiration::findOrFail($id);
+        $aspiration->delete();
+
+        return redirect()->route('admin.management.aspiration')->with('success', 'Aspiration deleted successfully.');
+    }
+    public function createcategory()
+    {
+        return view('admin.createcategory');
+    }
+
+    public function storecategory(Request $request)
+    {
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:categories,category_name'
+        ]);
+
+        Category::create([
+            'category_name' => $request->category_name,
+        ]);
+
+        return redirect()->route('admin.category.management')->with('success', 'Category created successfully.');
+    }
+
+    public function updatecategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+        $request->validate([
+            'category_name' => 'required|string|max:255|unique:categories,category_name,' . $category->id
+        ]);
+
+        $category->update([
+            'category_name' => $request->category_name,
+        ]);
+
+        return redirect()->route('admin.category.management')->with('success', 'Category updated successfully.');
+    }
+
+    public function deletecategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('admin.category.management')->with('success', 'Category deleted successfully.');
+    }
+
     public function logout(Request $request)
     {
         auth()->guard('admin')->logout();

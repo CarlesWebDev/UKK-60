@@ -6,7 +6,7 @@ class Admin extends Authenticatable
 {
     protected $table = 'admins';
     protected $guard = 'admin';
-
+    
     protected $fillable = [
         'name',
         'email',
@@ -17,4 +17,8 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function feedbacks() {
+        return $this->hasMany(Feedback::class);
+    }
 }

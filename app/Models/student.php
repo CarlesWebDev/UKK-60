@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Student extends Authenticatable
@@ -10,7 +11,8 @@ class Student extends Authenticatable
 
     protected $fillable = [
         'name',
-        'nis',
+        'nisn',
+        'grade',
         'password',
     ];
 
@@ -18,4 +20,9 @@ class Student extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function aspirations()
+    {
+        return $this->hasMany(Aspiration::class);
+    }
 }

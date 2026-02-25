@@ -5,7 +5,6 @@
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <i class="fas fa-school text-2xl"></i>
                     <span class="text-xl font-bold">SIPASAR</span>
                 </div>
 
@@ -43,7 +42,7 @@
         </div>
     </nav>
 
-    <section id="beranda" class="bg-gray-50 py-12 md:py-20">
+    <section id="beranda" class="bg-gray-50 py-10 md:py-10">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
@@ -57,7 +56,7 @@
 
 
                     <div class="mt-10 flex items-center">
-                        <div class="flex -space-x-3">
+                        <div class="flex -space-x-2">
                             <div
                                 class="w-10 h-10 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center">
                                 <span class="text-blue-700 font-bold">S</span>
@@ -95,7 +94,7 @@
                                         <i class="fas fa-tools text-primary"></i>
                                     </div>
                                     <div class="ml-4">
-                                        <h4 class="font-semibold">Meja Rusak di Kelas 8A</h4>
+                                        <h4 class="font-semibold">Meja Rusak di Kelas XII</h4>
                                         <p class="text-sm text-gray-600">Dilaporkan oleh: Andi - 15 menit lalu</p>
                                     </div>
                                 </div>
@@ -105,7 +104,7 @@
                                         <i class="fas fa-faucet text-yellow-600"></i>
                                     </div>
                                     <div class="ml-4">
-                                        <h4 class="font-semibold">Kran Air Bocor di Toilet</h4>
+                                        <h4 class="font-semibold">Keran Air Bocor di Toilet</h4>
                                         <p class="text-sm text-gray-600">Dilaporkan oleh: Bu Sari - 1 jam lalu</p>
                                     </div>
                                 </div>
@@ -115,17 +114,17 @@
                                         <i class="fas fa-lightbulb text-red-600"></i>
                                     </div>
                                     <div class="ml-4">
-                                        <h4 class="font-semibold">Lampu Kelas 9B Mati</h4>
+                                        <h4 class="font-semibold">Lampu Kelas X Mati</h4>
                                         <p class="text-sm text-gray-600">Dilaporkan oleh: Rina - 2 jam lalu</p>
                                     </div>
                                 </div>
 
                                 <div class="flex items-start">
                                     <div class="bg-green-50 p-3 rounded-lg">
-                                        <i class="fas fa-check-circle text-green-600"></i>
+                                        <i class="fa-solid fa-door-closed text-green-600"></i>
                                     </div>
                                     <div class="ml-4">
-                                        <h4 class="font-semibold">Pintu Kelas 7C Sudah Diperbaiki</h4>
+                                        <h4 class="font-semibold">Pintu Kelas XI Sudah Diperbaiki</h4>
                                         <p class="text-sm text-gray-600">Diselesaikan oleh: Tim Maintenance</p>
                                     </div>
                                 </div>
@@ -197,7 +196,7 @@
                 <div
                     class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition duration-300">
                     <div class="bg-purple-100 w-14 h-14 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-bar text-purple-600 text-2xl"></i>
+                        <i class="fa-regular fa-copy text-purple-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Analitik & Laporan</h3>
                     <p class="text-gray-600 mb-4">Admin dapat melihat data statistik kerusakan dan analisis untuk
@@ -386,29 +385,12 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-6">
-                        <i class="fas fa-school text-3xl text-primary"></i>
+                       
                         <span class="text-2xl font-bold">SIPASAR</span>
                     </div>
                     <p class="text-gray-400 mb-6">Aplikasi pengaduan sarana prasarana sekolah yang memudahkan pelaporan dan
                         perbaikan fasilitas pendidikan.</p>
-                    <div class="flex space-x-4">
-                        <a href="#"
-                            class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary transition duration-300">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary transition duration-300">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary transition duration-300">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary transition duration-300">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
+
                 </div>
 
                 <div>
@@ -428,12 +410,11 @@
                             <a href="#cara-kerja" class="text-gray-400 hover:text-white transition duration-300">Cara
                                 Kerja
                             </a>
-                            </li>
+                        </li>
                         <li>
-                            <a href="#testimoni"
-                                class="text-gray-400 hover:text-white transition duration-300">Testimoni
+                            <a href="#testimoni" class="text-gray-400 hover:text-white transition duration-300">Testimoni
                             </a>
-                            </li>
+                        </li>
                     </ul>
                 </div>
 
@@ -459,14 +440,15 @@
                     <h4 class="text-xl font-bold mb-6">Tim Pengembang</h4>
                     <p class="text-gray-400 mb-4">Aplikasi ini dibuat dan dikembangkan dengan penuh dedikasi oleh:</p>
                     <ul class="text-gray-400 space-y-2">
-                        <li class="flex items-center"><i class="fas fa-code text-primary mr-2"></i> Siswa XII RPL 2</li>
+                        <li class="flex items-center"><i class="fas fa-code text-primary mr-2"></i>SMKN 4 TANGERANG</li>
                     </ul>
                 </div>
             </div>
 
             <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
                 <p>&copy; 2026 SIPASAR. Hak cipta dilindungi undang-undang.</p>
-                <p class="mt-2">Dikembangkan dengan <i class="fas fa-heart text-red-500"></i> untuk pendidikan Indonesia
+                <p class="mt-2">Dikembangkan dengan <i class="fas fa-heart text-red-500"></i> Oleh SMKN 4 TANGERANG
+                    untuk pendidikan
                     yang lebih baik</p>
             </div>
         </div>

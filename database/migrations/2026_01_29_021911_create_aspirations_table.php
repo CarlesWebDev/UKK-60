@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('aspirations', function (Blueprint $table) {
             $table->id();
-            $table->ForeignId('feedback_id')->nullable();
+            $table->ForeignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->ForeignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->ForeignId('feedback_id')->nullable()->constrained('feedback')->onDelete('set null');
             $table->string('title');
-            $table->ForeignId('student_id');
             $table->string('description');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->string('location');
-            $table->ForeignId('category_id');
-            $table->enum('status', ['pending', 'progress', 'complate','rejected'])->default('pending');
+            $table->enum('status', ['pending', 'progress', 'completed','rejected'])->default('pending');
 
             $table->timestamps();
         });

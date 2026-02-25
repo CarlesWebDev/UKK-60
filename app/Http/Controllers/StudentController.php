@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\student;
 use Illuminate\Http\Request;
+use App\Models\{Aspiration, Category, student};
 
 class StudentController extends Controller
 {
@@ -12,7 +12,7 @@ class StudentController extends Controller
      */
     public function ShowLoginStudent()
     {
-        if(auth()->guard('student')->check()) {
+        if (auth()->guard('student')->check()) {
             return redirect()->route('student.dashboard');
         }
         return view('auth.studentLogin');
@@ -21,82 +21,102 @@ class StudentController extends Controller
     public function Login(Request $request)
     {
         $credentials = $request->validate([
-            'nis' => 'required|string|min:10|',
+            'nisn' => 'required|string|min:10|',
             'password' => 'required|string|min:8',
         ]);
         if (auth()->guard('student')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('student.dashboard');
+            return redirect()->route('student.dashboard')->with('success', 'Berhasil Login');
         }
         return back()->withErrors([
-            'nis' => 'The provided credentials do not match our records.',
+            'nisn' => 'The provided credentials do not match our records.',
         ])->onlyInput('nis');
-
     }
 
     public function dashboard()
     {
-        return view('student.dashboard');
+        $studentId = auth()->guard('student')->id();
+
+        $aspirations = Aspiration::with('category')
+            ->where('student_id', $studentId)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+
+        $total      = Aspiration::where('student_id', $studentId)->count();
+        $progress = Aspiration::where('student_id', $studentId)->whereIn('status', ['pending', 'progress'])->count();
+        $completed  = Aspiration::where('student_id', $studentId)->where('status', 'completed')->count();
+
+        return view('student.dashboard', compact('aspirations', 'total', 'progress', 'completed'));
     }
 
+    // hstory
     public function History()
     {
-        return view('student.history');
+        $studentId = auth()->guard('student')->id();
+
+        $aspirations = Aspiration::with('category')
+            ->where('student_id', $studentId)
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('student.history', compact('aspirations'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createaspiration()
     {
-        //
+        $categories = Category::all();
+        return view('student.createaspiration', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeaspirations(Request $request)
     {
-        //
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'photo'       => 'nullable|image|max:2048',
+            'location'    => 'required|string|max:255',
+        ]);
+
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos', 'public');
+        }
+
+
+        Aspiration::create([
+            'category_id' => $request->category_id,
+            'title'       => $request->title,
+            'description' => $request->description,
+            'location'    => $request->location,
+            'photo'       => $photoPath,
+            'student_id'  => auth()->guard('student')->id(),
+            'status'      => 'pending',
+        ]);
+
+        return redirect()->route('student.dashboard')->with('success', 'Aspirasi berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(student $student)
-    {
-        //
-    }
+    public function deleteaspirations($id){
+        $aspirations = Aspiration::findOrFail($id);
+        $aspirations->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(student $student)
-    {
-        //
+         return redirect()->route('student.dashboard')->with('success', 'Aspirations deleted successfully.');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, student $student)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(student $student)
-    {
-        //
-    }
-
     public function logout(Request $request)
     {
         auth()->guard('student')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/student/login');
     }
 }
