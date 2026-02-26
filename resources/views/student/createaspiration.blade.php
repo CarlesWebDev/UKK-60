@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto font-sans">
-       
+
 
         <div class=" rounded-xl  p-6 sm:p-8">
 
@@ -101,6 +101,19 @@
                     @error('photo')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
+                </div>
+
+
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                    <p class="text-sm font-semibold text-blue-800 mb-2"><i class="fas fa-info-circle mr-1"></i> Catatan:</p>
+                    <ul class="list-disc list-outside ml-5 space-y-1 text-sm text-blue-700">
+                        <li>Pastikan laporan Anda jelas dan mudah dipahami.</li>
+                        <li>Sertakan detail yang relevan untuk membantu pihak sekolah memproses laporan dengan cepat.</li>
+                        <li>Laporan hanya dapat diubah (edit) jika statusnya masih <b
+                        class="uppercase text-yellow-600">Pending</b>. Jika status sudah berubah menjadi <b
+                        class="uppercase text-blue-600">Progress</b> atau lainnya, laporan tidak dapat diubah lagi.
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="flex justify-end pt-4">

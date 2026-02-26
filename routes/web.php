@@ -31,6 +31,8 @@ Route::middleware('auth:student')->prefix('student')->name('student.')->group(fu
     Route::get('/createaspiration', [StudentController::class, 'createaspiration'])->name('create.aspiration');
     Route::post('/storeaspirations', [StudentController::class, 'storeaspirations'])->name('storeaspirations');
     Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
+    Route::get('/aspirations/{id}/edit', [StudentController::class, 'editaspiration'])->name('edit.aspiration');
+    Route::put('/aspirations/{id}', [StudentController::class, 'updateaspiration'])->name('update.aspiration');
     Route::get('/history', [StudentController::class, 'history'])->name('history');
     Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
 });
@@ -56,7 +58,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
 
     Route::get('/aspirations-management', [AdminController::class, 'ManagementAspirations'])->name('management.aspiration');
-    Route::get('/show-aspirations/{id}', [AdminController::class, 'showaspirations'])->name('show.aspirations');
+    Route::get('/aspirations/{id}', [AdminController::class, 'showaspirations'])->name('show.aspirations');
     Route::post('/management/aspirations/{id}/feedback', [AdminController::class, 'storeFeedback'])->name('aspirations.feedback');
     Route::delete('/management/aspirations/{id}', [AdminController::class, 'deleteaspiration'])->name('delete.aspiration');
 

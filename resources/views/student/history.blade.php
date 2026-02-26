@@ -69,13 +69,13 @@
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
-                                            Menunggu
+                                            Pending
                                         </span>
                                     @elseif ($aspiration->status == 'progress')
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                            Diproses
+                                            progress
                                         </span>
                                     @elseif ($aspiration->status == 'completed')
                                         <span
@@ -100,7 +100,7 @@
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
 
-                                        <div id="menu-dropdown-{{ $aspiration->id }}"
+                                        <div
                                             class="hidden absolute right-0 mt-2 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 transform transition-all duration-200 ease-out scale-95 opacity-0">
 
                                             <div class="py-1 text-left">
@@ -304,12 +304,12 @@
                                     @if ($aspiration->status == 'pending')
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span>
-                                            Menunggu
+                                            Pending
                                         </span>
                                     @elseif ($aspiration->status == 'progress')
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                            Diproses
+                                            progress
                                         </span>
                                     @elseif ($aspiration->status == 'completed')
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">

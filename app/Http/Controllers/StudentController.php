@@ -106,11 +106,51 @@ class StudentController extends Controller
         return redirect()->route('student.dashboard')->with('success', 'Aspirasi berhasil ditambahkan.');
     }
 
-    public function deleteaspirations($id){
+
+    public function editaspiration($id)
+    {
+        $aspiration = Aspiration::findOrFail($id);
+        $categories = Category::all();
+        return view('student.editaspiration', compact('aspiration', 'categories'));
+    }
+
+    public function updateaspiration(Request $request, $id)
+    {
+        $aspiration = Aspiration::findOrFail($id);
+
+        if ($aspiration->student_id !== auth()->guard('student')->id() || $aspiration->status !== 'pending') {
+            abort(403);
+        }
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'photo'       => 'nullable|image|max:2048',
+            'location'    => 'required|string|max:255',
+        ]);
+
+        if ($request->hasFile('photo')) {
+            if ($aspiration->photo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($aspiration->photo);
+            }
+            $aspiration->photo = $request->file('photo')->store('photos', 'public');
+        }
+
+        $aspiration->category_id = $request->category_id;
+        $aspiration->title       = $request->title;
+        $aspiration->description = $request->description;
+        $aspiration->location    = $request->location;
+        $aspiration->save();
+
+        return redirect()->route('student.dashboard')->with('success', 'Aspirasi berhasil diperbarui.');
+    }
+    public function deleteaspirations($id)
+    {
         $aspirations = Aspiration::findOrFail($id);
         $aspirations->delete();
 
-         return redirect()->route('student.dashboard')->with('success', 'Aspirations deleted successfully.');
+        return redirect()->route('student.dashboard')->with('success', 'Aspirations deleted successfully.');
     }
     public function logout(Request $request)
     {

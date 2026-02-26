@@ -97,8 +97,17 @@
                         @forelse ($aspirations as $aspiration)
                             <tr class="hover:bg-blue-50/30 transition">
                                 <td class="px-4 py-3 text-center">
-                                    <img src="{{ asset('storage/' . $aspiration->photo) }}" alt="Foto Aspirasi"
-                                        class="w-12 h-12 object-cover rounded-lg border border-gray-200 mx-auto cursor-pointer hover:scale-105 transition">
+                                    <div
+                                        class="h-12 w-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+                                        @if ($aspiration->photo)
+                                            <img src="{{ asset('storage/' . $aspiration->photo) }}" alt="Bukti"
+                                                class="h-full w-full object-cover">
+                                        @else
+                                            <div class="h-full w-full flex items-center justify-center text-gray-400">
+                                                <i class="fa-regular fa-image"></i>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </td>
 
                                 <td class="px-4 py-3 font-medium text-gray-900">
@@ -128,25 +137,25 @@
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
-                                            Menunggu
+                                            Pending
                                         </span>
                                     @elseif ($aspiration->status == 'progress')
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                            Diproses
+                                            progress
                                         </span>
                                     @elseif ($aspiration->status == 'completed')
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                            Selesai
+                                            Complated
                                         </span>
                                     @elseif ($aspiration->status == 'rejected')
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                            Ditolak
+                                            Rejected
                                         </span>
                                     @endif
                                 </td>
@@ -163,7 +172,7 @@
                                             class="hidden absolute right-0 mt-2 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 transform transition-all duration-200 ease-out scale-95 opacity-0">
 
                                             <div class="py-1 text-left">
-                                                <a href="#"
+                                                <a href="{{ route('student.edit.aspiration', $aspiration->id) }}"
                                                     class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">
                                                     <i
                                                         class="fa-solid fa-pen-to-square mr-3 text-blue-500 group-hover:text-blue-600"></i>

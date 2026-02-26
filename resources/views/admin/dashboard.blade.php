@@ -28,41 +28,29 @@
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $total }}</p>
                 </div>
                 <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
+                   <i class="fa-solid text-2xl fa-file"></i>
                 </div>
             </div>
 
             <div
                 class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between transition hover:-translate-y-1 hover:shadow-md duration-200">
                 <div>
-                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Sedang Proses</p>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Sedang progress</p>
                     <p class="text-3xl font-bold text-blue-600 mt-2">{{ $proccessingaspirations }}</p>
                 </div>
                 <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                    </svg>
+                    <i class="fa-solid text-2xl fa-arrows-rotate"></i>
                 </div>
             </div>
 
             <div
                 class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between transition hover:-translate-y-1 hover:shadow-md duration-200">
                 <div>
-                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Selesai</p>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">completed</p>
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $aspirationdone }}</p>
                 </div>
                 <div class="p-3 bg-green-50 rounded-lg text-green-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
+                    <i class="fa-regular text-2xl fa-circle-check"></i>
                 </div>
             </div>
             <div
@@ -72,7 +60,7 @@
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $rejectedAspirations }}</p>
                 </div>
                 <div class="p-3 bg-red-50 rounded-lg text-red-600">
-                    <i class="fa-solid fa-x"></i>
+                    <i class="fa-solid text-2xl fa-x"></i>
                 </div>
             </div>
         </div>
@@ -94,10 +82,10 @@
                     <select
                         class="w-full sm:w-auto bg-gray-50 border pe-8 border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none hover:bg-white transition">
                         <option selected>Semua Status</option>
-                        <option value="menunggu">Menunggu</option>
-                        <option value="proses">Proses</option>
-                        <option value="selesai">Selesai</option>
-                        <option value="ditolak">Ditolak</option>
+                        <option value="pending">pending</option>
+                        <option value="progress">progress</option>
+                        <option value="completed">completed</option>
+                        <option value="rejected">rejected</option>
                     </select>
 
                     <input type="date"
@@ -120,17 +108,17 @@
 
                                 <span
                                     class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border
-                                    @if ($aspiration->status == 'menunggu') bg-gray-100 text-gray-600 border-gray-200
-                                    @elseif($aspiration->status == 'proses') bg-blue-50 text-blue-700 border-blue-100
-                                    @elseif($aspiration->status == 'selesai') bg-green-50 text-green-700 border-green-100
-                                    @elseif($aspiration->status == 'ditolak') bg-red-50 text-red-700 border-red-100
+                                    @if ($aspiration->status == 'pending') bg-gray-100 text-gray-600 border-gray-200
+                                    @elseif($aspiration->status == 'progress') bg-blue-50 text-blue-700 border-blue-100
+                                    @elseif($aspiration->status == 'completed') bg-green-50 text-green-700 border-green-100
+                                    @elseif($aspiration->status == 'rejected') bg-red-50 text-red-700 border-red-100
                                     @else bg-gray-100 text-gray-600 border-gray-200 @endif">
                                     <span
                                         class="w-1.5 h-1.5 me-1.5 rounded-full
-                                        @if ($aspiration->status == 'menunggu') bg-gray-400
-                                        @elseif($aspiration->status == 'proses') bg-blue-600
-                                        @elseif($aspiration->status == 'selesai') bg-green-600
-                                        @elseif($aspiration->status == 'ditolak') bg-red-600
+                                        @if ($aspiration->status == 'pending') bg-gray-400
+                                        @elseif($aspiration->status == 'progress') bg-blue-600
+                                        @elseif($aspiration->status == 'completed') bg-green-600
+                                        @elseif($aspiration->status == 'rejected') bg-red-600
                                         @else bg-gray-400 @endif">
                                     </span>
                                     {{ ucfirst($aspiration->status) }}

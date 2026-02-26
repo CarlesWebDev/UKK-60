@@ -32,7 +32,7 @@
                 <table class="w-full text-left text-sm">
                     <thead class="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-4 font-medium">Foto</th>
+                            <th class="px-6 py-4 font-medium text-center">Foto</th>
                             <th class="px-6 py-4 font-medium">Judul & Laporan</th>
                             <th class="px-6 py-4 font-medium">Pengirim</th>
                             <th class="px-6 py-4 font-medium">Lokasi</th>
@@ -93,7 +93,7 @@
                                 <td class="px-6 py-4">
                                     <div class="text-gray-900 text-xs font-medium">{{ $item->created_at->format('d M Y') }}
                                     </div>
-                                    <div class="text-gray-400 text-[10px]">{{ $item->created_at->format('H:i') }} WIB</div>
+                                    <div class="text-gray-400 text-[10px]">{{ $item->created_at->format('H:i') }}</div>
                                 </td>
                                 <td class="px-6 py-4">
                                     @php
