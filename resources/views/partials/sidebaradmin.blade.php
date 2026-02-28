@@ -12,10 +12,10 @@
                         </path>
                     </svg>
                 </button>
-                <a href="#" class="flex ms-2  items-center">
-
+                <a href="{{ route('admin.dashboard') }}" class="flex ms-2  items-center">
                     <span
-                        class="self-center text-xl  whitespace-nowrap font-sans font-bold text-blue-500">SIPASAR</span>
+                        class="self-center text-xl  whitespace-nowrap font-sans font-bold text-blue-500">SIPASAR
+                    </span>
                 </a>
             </div>
             <div class="flex items-center gap-4">
@@ -75,7 +75,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.user.management') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.user.management') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 18">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 18">
                             <path
                                 d="M14 2a3.963 3.963 0 0 0-1.4.267A6.439 6.439 0 0 1 11.27 8.905 4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                         </svg>
@@ -88,7 +88,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.category.management') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.category.management') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                     <i class="fa-solid fa-tag"></i>
+                        <i class="fa-solid fa-tag"></i>
                     </div>
                     <span class="ms-3 font-medium">Category Management</span>
                 </a>
@@ -98,7 +98,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.management.aspiration') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.management.aspiration') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                      <i class="fa-solid fa-list"></i>
+                        <i class="fa-solid fa-list"></i>
                     </div>
                     <span class="ms-3 font-medium">Management Aspiration</span>
                 </a>
@@ -111,7 +111,7 @@
                     <div
                         class="flex items-center justify-center w-6 h-6 transition-colors duration-200
                         {{ request()->routeIs('admin.history') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }}">
-                       <i class="fa-solid fa-clock-rotate-left"></i>
+                        <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
                     <span class="ms-3 font-medium">Histori Aspirasi</span>
                 </a>
@@ -124,7 +124,7 @@
                     class="flex items-center w-full p-3  text-red-500 rounded-lg hover:text-red-900 hover:bg-gray-50 group transition-colors duration-200">
                     <div
                         class="flex items-center justify-center w-6 h-6 text-gray-500 group-hover:text-red-500 transition-colors duration-200">
-                       <i class="fa-solid text-red-500 fa-arrow-right-from-bracket"></i>
+                        <i class="fa-solid text-red-500 fa-arrow-right-from-bracket"></i>
                     </div>
                     <span class="ms-3 font-medium">Sign out</span>
                 </button>
