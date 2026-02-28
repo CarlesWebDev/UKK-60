@@ -147,7 +147,6 @@ class AdminController extends Controller
     public function ManagementAspirations(Request $request)
     {
         $query = Aspiration::with(['student', 'category']);
-        $aspirations = $query->latest()->paginate(5)->withQueryString();
 
         if ($request->filled('status')) {
             if ($request->status === 'completed') {
@@ -166,6 +165,7 @@ class AdminController extends Controller
             });
         }
 
+        $aspirations = $query->latest()->paginate(5)->withQueryString();
         return view('admin.managementaspirations', compact('aspirations'));
     }
 
