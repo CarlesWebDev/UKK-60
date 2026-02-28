@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="flex gap-2 w-full md:w-auto">
-                        <select name="grade"
+                        <select name="grade" onchange="this.form.submit()"
                             class="bg-white border  border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 pe-10 outline-none">
                             <option value="Semua Kelas">Semua Kelas</option>
                             @foreach ($grades as $gradeOption)
