@@ -28,9 +28,9 @@
                     <tbody class="divide-y divide-gray-50">
                         @forelse ($aspirations as $aspiration)
                             <tr class="hover:bg-blue-50/30 transition">
-                                <td class="px-4 py-3 text-center">
-                                   <div
-                                        class="h-12 w-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+                                <td class="px-4 py-3">
+                                    <div
+                                        class="h-12 w-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200 mx-auto">
                                         @if ($aspiration->photo)
                                             <img src="{{ asset('storage/' . $aspiration->photo) }}" alt="Bukti"
                                                 class="h-full w-full object-cover">
@@ -89,41 +89,35 @@
                                             <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                                             rejected
                                         </span>
+                                    @elseif ($aspiration->status == 'archived')
+                                        <span
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
+                                            archived
+                                        </span>
                                     @endif
                                 </td>
 
-                                <td class="px-4 py-3 text-center">
-                                    <div class="relative">
-                                        <button id="btn-dropdown-{{ $aspiration->id }}"
-                                            onclick="toggleDropdown('{{ $aspiration->id }}')"
-                                            class="p-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200 rounded-full hover:bg-gray-100">
+                                <td class="px-6 py-6 relative whitespace-nowrap text-center align-middle" x-data="{ open: false }">
+                                    <div class="flex justify-center items-center relative">
+                                        <button @click="open = !open" @click.outside="open = false"
+                                            class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
 
-                                        <div
-                                            class="hidden absolute right-0 mt-2 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 transform transition-all duration-200 ease-out scale-95 opacity-0">
+                                        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100"
+                                            x-transition:enter-start="transform opacity-0 scale-95"
+                                            x-transition:enter-end="transform opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="transform opacity-100 scale-100"
+                                            x-transition:leave-end="transform opacity-0 scale-95"
+                                            class="absolute right-2 top-2  mb-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
 
-                                            <div class="py-1 text-left">
-                                                <a href="#"
-                                                    class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">
-                                                    <i
-                                                        class="fa-solid fa-pen-to-square mr-3 text-blue-500 group-hover:text-blue-600"></i>
-                                                    Edit
-                                                </a>
-                                            </div>
-
-                                            <div class="py-1 text-left">
-                                                <form action="#" method="POST"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
-                                                        <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
-                                                        Hapus
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            <a href="{{ route('student.show.history.aspiration', $aspiration->id) }}"
+                                                class="group  items-center p-2  text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex ">
+                                                <i class="fa-solid fa-eye mr-3 text-blue-500 group-hover:text-blue-600"></i>
+                                                 Detail
+                                            </a>
                                         </div>
                                     </div>
                                 </td>

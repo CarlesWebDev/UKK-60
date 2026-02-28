@@ -46,7 +46,7 @@
             <div
                 class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between transition hover:-translate-y-1 hover:shadow-md duration-200">
                 <div>
-                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">completed</p>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Selesai</p>
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $aspirationdone }}</p>
                 </div>
                 <div class="p-3 bg-green-50 rounded-lg text-green-600">
@@ -56,7 +56,7 @@
             <div
                 class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between transition hover:-translate-y-1 hover:shadow-md duration-200">
                 <div>
-                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Tolak</p>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Ditolak</p>
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $rejectedAspirations }}</p>
                 </div>
                 <div class="p-3 bg-red-50 rounded-lg text-red-600">
@@ -95,6 +95,9 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach ($Dataaspirations as $aspiration)
+                    @php
+                        $displayStatus = $aspiration->status === 'archived' ? 'completed' : $aspiration->status;
+                    @endphp
                     <div
                         class="bg-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md hover:border-blue-300 transition duration-200 p-5 flex flex-col justify-between h-full">
                         <div>
@@ -103,25 +106,25 @@
                                     <span
                                         class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-1 rounded border border-blue-100">Laporan - {{ str_pad($aspiration->id, 3, '0', STR_PAD_LEFT) }}
                                     </span>
-                                    <p class="text-xs  text-gray-400 mt-2">{{ $aspiration->created_at->format('d M Y') }}</p>
+                                    <p class="text-xs text-gray-400 mt-2">{{ $aspiration->created_at->format('d M Y') }}</p>
                                 </div>
 
                                 <span
                                     class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border
-                                    @if ($aspiration->status == 'pending') bg-gray-100 text-gray-600 border-gray-200
-                                    @elseif($aspiration->status == 'progress') bg-blue-50 text-blue-700 border-blue-100
-                                    @elseif($aspiration->status == 'completed') bg-green-50 text-green-700 border-green-100
-                                    @elseif($aspiration->status == 'rejected') bg-red-50 text-red-700 border-red-100
+                                    @if ($displayStatus == 'pending') bg-gray-100 text-gray-600 border-gray-200
+                                    @elseif($displayStatus == 'progress') bg-blue-50 text-blue-700 border-blue-100
+                                    @elseif($displayStatus == 'completed') bg-green-50 text-green-700 border-green-100
+                                    @elseif($displayStatus == 'rejected') bg-red-50 text-red-700 border-red-100
                                     @else bg-gray-100 text-gray-600 border-gray-200 @endif">
                                     <span
                                         class="w-1.5 h-1.5 me-1.5 rounded-full
-                                        @if ($aspiration->status == 'pending') bg-gray-400
-                                        @elseif($aspiration->status == 'progress') bg-blue-600
-                                        @elseif($aspiration->status == 'completed') bg-green-600
-                                        @elseif($aspiration->status == 'rejected') bg-red-600
+                                        @if ($displayStatus == 'pending') bg-gray-400
+                                        @elseif($displayStatus == 'progress') bg-blue-600
+                                        @elseif($displayStatus == 'completed') bg-green-600
+                                        @elseif($displayStatus == 'rejected') bg-red-600
                                         @else bg-gray-400 @endif">
                                     </span>
-                                    {{ ucfirst($aspiration->status) }}
+                                    {{ ucfirst($displayStatus) }}
                                 </span>
                             </div>
 

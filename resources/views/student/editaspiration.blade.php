@@ -79,7 +79,7 @@
                         @endif
 
                         <input type="file" name="photo" id="photo" accept="image/*"
-                            class="w-full bg-white border border-gray-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 @error('photo') border-red-500 @enderror">
+                            class="w-full px-5 bg-white border border-gray-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 @error('photo') border-red-500 @enderror">
                         @error('photo')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror

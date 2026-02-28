@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('photo')->nullable();
             $table->string('location');
-            $table->enum('status', ['pending', 'progress', 'completed','rejected'])->default('pending');
+            $table->enum('status', ['pending', 'progress', 'completed','rejected', 'archived'])->default('pending');
 
             $table->timestamps();
         });

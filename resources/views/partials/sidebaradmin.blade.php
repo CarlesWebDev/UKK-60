@@ -103,6 +103,19 @@
                     <span class="ms-3 font-medium">Management Aspiration</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.history') }}"
+                    class="flex items-center p-2 rounded-lg transition-colors duration-200 group
+                    {{ request()->routeIs('admin.history') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100' }}">
+
+                    <div
+                        class="flex items-center justify-center w-6 h-6 transition-colors duration-200
+                        {{ request()->routeIs('admin.history') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }}">
+                       <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <span class="ms-3 font-medium">Histori Aspirasi</span>
+                </a>
+            </li>
         </ul>
         <div class="mt-8 pt-4 border-t border-gray-100">
             <form method="POST" action="{{ route('admin.logout') }}" id="logoutForm">

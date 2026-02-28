@@ -32,14 +32,16 @@
                     </div>
 
                     @php
-                        $statusClass = match ($aspiration->status) {
+                        $displayStatus = $aspiration->status === 'archived' ? 'completed' : $aspiration->status;
+
+                        $statusClass = match ($displayStatus) {
                             'pending' => 'bg-gray-50 text-gray-600 border-gray-200',
                             'progress' => 'bg-blue-50 text-blue-600 border-blue-200',
                             'completed' => 'bg-green-50 text-green-600 border-green-200',
                             'rejected' => 'bg-red-50 text-red-600 border-red-200',
                             default => 'bg-gray-50 text-gray-600 border-gray-200',
                         };
-                        $dotClass = match ($aspiration->status) {
+                        $dotClass = match ($displayStatus) {
                             'pending' => 'bg-gray-400',
                             'progress' => 'bg-blue-500',
                             'completed' => 'bg-green-500',
@@ -51,7 +53,7 @@
                         <span
                             class="flex justify-center items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold border w-full {{ $statusClass }} uppercase tracking-wide">
                             <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
-                            {{ $aspiration->status }}
+                            {{ $displayStatus }}
                         </span>
                     </div>
                 </div>
@@ -102,31 +104,31 @@
                         <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Ubah Status</label>
                         <select name="status" id="status"
                             class="w-full bg-white border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block p-3 outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"
-                            {{ $aspiration->status === 'completed' || $aspiration->status === 'rejected' ? 'disabled' : '' }}>
-                            <option value="pending" {{ $aspiration->status == 'pending' ? 'selected' : '' }}>Pending
+                            {{ $displayStatus === 'completed' || $displayStatus === 'rejected' ? 'disabled' : '' }}>
+                            <option value="pending" {{ $displayStatus == 'pending' ? 'selected' : '' }}>Pending
                             </option>
-                            <option value="progress" {{ $aspiration->status == 'progress' ? 'selected' : '' }}>Progress
+                            <option value="progress" {{ $displayStatus == 'progress' ? 'selected' : '' }}>Progress
                             </option>
-                            <option value="completed" {{ $aspiration->status == 'completed' ? 'selected' : '' }}>Completed
+                            <option value="completed" {{ $displayStatus == 'completed' ? 'selected' : '' }}>Completed
                             </option>
-                            <option value="rejected" {{ $aspiration->status == 'rejected' ? 'selected' : '' }}>Rejected
+                            <option value="rejected" {{ $displayStatus == 'rejected' ? 'selected' : '' }}>Rejected
                             </option>
                         </select>
                     </div>
 
                     <div>
                         <label for="information" class="block text-sm font-medium text-gray-700 mb-2">Pesan Feedback</label>
-                        <input type="text" name="information" id="information"
+                        <input value="{{ old('information', $aspiration->feedback->information ?? '') }}" type="text"
+                            name="information" id="information"
                             class="w-full bg-white border border-gray-200 rounded-lg p-3 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed @error('information') border-red-500 @enderror"
                             placeholder="Masukkan pesan feedback untuk siswa..."
-                            value="{{ old('information', $aspiration->feedback->information ?? '') }}"
-                            {{ $aspiration->status === 'completed' || $aspiration->status === 'rejected' ? 'disabled' : '' }}>
+                            {{ $displayStatus === 'completed' || $displayStatus === 'rejected' ? 'disabled' : '' }}>
                         @error('information')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    @if ($aspiration->status !== 'completed' && $aspiration->status !== 'rejected')
+                    @if ($displayStatus !== 'completed' && $displayStatus !== 'rejected')
                         <div class="flex justify-end pt-2">
                             <button type="submit"
                                 class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition shadow-sm flex items-center">

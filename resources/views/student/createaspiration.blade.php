@@ -110,8 +110,8 @@
                         <li>Pastikan laporan Anda jelas dan mudah dipahami.</li>
                         <li>Sertakan detail yang relevan untuk membantu pihak sekolah memproses laporan dengan cepat.</li>
                         <li>Laporan hanya dapat diubah (edit) jika statusnya masih <b
-                        class="uppercase text-yellow-600">Pending</b>. Jika status sudah berubah menjadi <b
-                        class="uppercase text-blue-600">Progress</b> atau lainnya, laporan tidak dapat diubah lagi.
+                                class="uppercase text-yellow-600">Pending</b>. Jika status sudah berubah menjadi <b
+                                class="uppercase text-blue-600">Progress</b> atau lainnya, laporan tidak dapat diubah lagi.
                         </li>
                     </ul>
                 </div>

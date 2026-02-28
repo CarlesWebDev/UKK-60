@@ -2,19 +2,6 @@
 
 @section('content')
     <div class="space-y-6 max-w-7xl mx-auto font-sans">
-
-        {{-- @if (session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mx-6 mt-4">
-                <div class="flex items-center">
-                    <svg class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-        @endif --}}
-
         <div
             class="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-xl border border-blue-100 shadow-sm">
             <div>
@@ -96,9 +83,9 @@
                     <tbody class="divide-y divide-gray-50">
                         @forelse ($aspirations as $aspiration)
                             <tr class="hover:bg-blue-50/30 transition">
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-4 py-3 text-center align-middle">
                                     <div
-                                        class="h-12 w-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+                                        class="h-12 w-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200 mx-auto">
                                         @if ($aspiration->photo)
                                             <img src="{{ asset('storage/' . $aspiration->photo) }}" alt="Bukti"
                                                 class="h-full w-full object-cover">
@@ -110,29 +97,29 @@
                                     </div>
                                 </td>
 
-                                <td class="px-4 py-3 font-medium text-gray-900">
+                                <td class="px-4 py-3 font-medium text-gray-900 align-middle">
                                     {{ $aspiration->title }}
                                 </td>
 
-                                <td class="px-4 py-3 text-gray-500 max-w-xs truncate">
+                                <td class="px-4 py-3 text-gray-500 max-w-xs truncate align-middle">
                                     {{ $aspiration->description }}
                                 </td>
 
-                                <td class="px-4 py-3 text-gray-600">
+                                <td class="px-4 py-3 text-gray-600 align-middle">
                                     <div class="flex items-center gap-1.5">
                                         <i class="fas fa-map-marker-alt text-gray-400 text-xs"></i>
                                         <span>{{ $aspiration->location }}</span>
                                     </div>
                                 </td>
 
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-4 py-3 text-center align-middle">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
                                         {{ $aspiration->category->category_name }}
                                     </span>
                                 </td>
 
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-4 py-3 text-center align-middle">
                                     @if ($aspiration->status == 'pending')
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
@@ -160,46 +147,51 @@
                                     @endif
                                 </td>
 
-                                <td class="px-4 py-3 text-center">
-                                    <div class="relative">
-                                        <button id="btn-dropdown-{{ $aspiration->id }}"
-                                            onclick="toggleDropdown('{{ $aspiration->id }}')"
-                                            class="p-2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors duration-200 rounded-full hover:bg-gray-100">
+                                <td class="px-4 py-3 text-center  align-middle" x-data="{ open: false }">
+                                    <div class="flex justify-end text-right align-top  relative">
+                                        <button @click="open = !open" @click.outside="open = false"
+                                            class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
 
-                                        <div id="menu-dropdown-{{ $aspiration->id }}"
-                                            class="hidden absolute right-0 mt-2 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 transform transition-all duration-200 ease-out scale-95 opacity-0">
+                                        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100"
+                                            x-transition:enter-start="transform opacity-0 scale-95"
+                                            x-transition:enter-end="transform opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="transform opacity-100 scale-100"
+                                            x-transition:leave-end="transform opacity-0 scale-95"
+                                            class="absolute right-12 top-2 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
 
-                                            <div class="py-1 text-left">
+                                            @if ($aspiration->status === 'pending')
                                                 <a href="{{ route('student.edit.aspiration', $aspiration->id) }}"
-                                                    class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors">
-                                                    <i
-                                                        class="fa-solid fa-pen-to-square mr-3 text-blue-500 group-hover:text-blue-600"></i>
-                                                    Edit
+                                                    class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded-lg">
+                                                    <i class="fa-regular fa-pen-to-square"></i> Edit
                                                 </a>
-                                            </div>
+                                            @endif
 
-                                            <div class="py-1 text-left">
-                                                <form action="{{ route('student.delete.aspirations', $aspiration->id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
-                                                        <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
-                                                        Hapus
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            @if ($aspiration->status === 'completed' || $aspiration->status === 'rejected' || $aspiration->status === 'progress')
+                                                <div class="">
+                                                    <form
+                                                        action="{{ route('student.delete.aspirations', $aspiration->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
+                                                            <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
+                                                            Hapus
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+                                <td colspan="7" class="px-4 py-8 text-center text-gray-500 align-middle">
                                     Tidak ada aspirasi yang tersedia.
                                 </td>
                             </tr>
@@ -241,7 +233,7 @@
     </div>
 @endsection
 
-<script>
+{{-- <script>
     function toggleDropdown(id) {
         const menu = document.getElementById(`menu-dropdown-${id}`);
         document.querySelectorAll('[id^="menu-dropdown-"]').forEach(el => {
@@ -283,7 +275,7 @@
             });
         }
     });
-</script>
+</script> --}}
 
 
 

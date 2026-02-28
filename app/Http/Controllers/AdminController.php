@@ -37,11 +37,10 @@ class AdminController extends Controller
     {
         $total = Aspiration::count();
         $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
-        $aspirationdone = Aspiration::where('status', 'completed')->count();
+        $aspirationdone = Aspiration::whereIn('status', ['completed', 'archived'])->count();
 
         $Dataaspirations = Aspiration::with(['student', 'category'])->latest()->paginate(5)->withQueryString();
         $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
-
 
         return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations'));
     }
@@ -148,9 +147,14 @@ class AdminController extends Controller
     public function ManagementAspirations(Request $request)
     {
         $query = Aspiration::with(['student', 'category']);
+        $aspirations = $query->latest()->paginate(5)->withQueryString();
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status === 'completed') {
+                $query->whereIn('status', ['completed', 'archived']);
+            } else {
+                $query->where('status', $request->status);
+            }
         }
 
         if ($request->filled('search')) {
@@ -161,8 +165,6 @@ class AdminController extends Controller
                     ->orWhere('location', 'like', "%{$search}%");
             });
         }
-
-        $aspirations = $query->latest()->paginate(5)->withQueryString();
 
         return view('admin.managementaspirations', compact('aspirations'));
     }
@@ -225,20 +227,6 @@ class AdminController extends Controller
         return redirect()->route('admin.category.management')->with('success', 'Category created successfully.');
     }
 
-    public function updatecategory(Request $request, $id)
-    {
-        $category = Category::findOrFail($id);
-        $request->validate([
-            'category_name' => 'required|string|max:255|unique:categories,category_name,' . $category->id
-        ]);
-
-        $category->update([
-            'category_name' => $request->category_name,
-        ]);
-
-        return redirect()->route('admin.category.management')->with('success', 'Category updated successfully.');
-    }
-
     public function deletecategory($id)
     {
         $category = Category::findOrFail($id);
@@ -246,6 +234,21 @@ class AdminController extends Controller
 
         return redirect()->route('admin.category.management')->with('success', 'Category deleted successfully.');
     }
+
+
+    public function history()
+    {
+        $adminId = auth()->guard('admin')->id();
+
+        $aspirations = Aspiration::with('category')
+            ->whereHas('feedback', function ($query) use ($adminId) {
+                $query->where('admin_id', $adminId);
+            })
+            ->latest()
+            ->paginate(5);
+        return view('admin.history', compact('aspirations'));
+    }
+
 
     public function logout(Request $request)
     {

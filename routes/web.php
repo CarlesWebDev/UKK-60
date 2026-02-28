@@ -33,6 +33,7 @@ Route::middleware('auth:student')->prefix('student')->name('student.')->group(fu
     Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
     Route::get('/aspirations/{id}/edit', [StudentController::class, 'editaspiration'])->name('edit.aspiration');
     Route::put('/aspirations/{id}', [StudentController::class, 'updateaspiration'])->name('update.aspiration');
+    Route::get('/aspirations/{id}', [StudentController::class, 'showhistoryaspirations'])->name('show.history.aspiration');
     Route::get('/history', [StudentController::class, 'history'])->name('history');
     Route::post('/logout', [StudentController::class, 'logout'])->name('logout');
 });
@@ -62,6 +63,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::post('/management/aspirations/{id}/feedback', [AdminController::class, 'storeFeedback'])->name('aspirations.feedback');
     Route::delete('/management/aspirations/{id}', [AdminController::class, 'deleteaspiration'])->name('delete.aspiration');
 
+    Route::get('/history', [AdminController::class, 'history'])->name('history');
 
 
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');

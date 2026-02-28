@@ -97,14 +97,16 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @php
-                                        $statusClass = match ($item->status) {
+                                        $displayStatus = $item->status === 'archived' ? 'completed' : $item->status;
+
+                                        $statusClass = match ($displayStatus) {
                                             'pending' => 'bg-gray-100 text-gray-600 border-gray-200',
                                             'progress' => 'bg-blue-50 text-blue-600 border-blue-200',
                                             'completed' => 'bg-green-50 text-green-700 border-green-200',
                                             'rejected' => 'bg-red-50 text-red-600 border-red-200',
                                             default => 'bg-gray-100 text-gray-600 border-gray-200',
                                         };
-                                        $dotClass = match ($item->status) {
+                                        $dotClass = match ($displayStatus) {
                                             'pending' => 'bg-gray-500',
                                             'progress' => 'bg-blue-500',
                                             'completed' => 'bg-green-500',
@@ -115,7 +117,7 @@
                                     <span
                                         class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border {{ $statusClass }}">
                                         <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
-                                        {{ ucfirst($item->status) }}
+                                        {{ ucfirst($displayStatus) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 relative whitespace-nowrap" x-data="{ open: false }">
