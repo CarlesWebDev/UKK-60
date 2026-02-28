@@ -33,7 +33,7 @@ class AdminController extends Controller
     }
 
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $total = Aspiration::count();
         $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
@@ -42,7 +42,31 @@ class AdminController extends Controller
         $Dataaspirations = Aspiration::with(['student', 'category'])->latest()->paginate(5)->withQueryString();
         $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
 
-        return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations'));
+        $categories = Category::all();
+        $students = Student::all();
+
+        $query = Aspiration::with(['student', 'category']);
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('student_id')) {
+            $query->where('student_id', $request->student_id);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->filled('month')) {
+            $query->whereYear('created_at', date('Y', strtotime($request->month)))
+                ->whereMonth('created_at', date('m', strtotime($request->month)));
+        }
+
+        $Dataaspirations = $query->latest()->paginate(5)->withQueryString();
+
+        return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations', 'categories', 'students'));
     }
 
     public function UserManagement(Request $request)
@@ -161,7 +185,15 @@ class AdminController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%");
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('created_at', 'like', "%{$search}%")
+                    ->orWhereHas('student', function ($studentQuery) use ($search) {
+                        $studentQuery->where('name', 'like', "%{$search}%")
+                            ->orWhere('nisn', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('category', function ($categoryQuery) use ($search) {
+                        $categoryQuery->where('category_name', 'like', "%{$search}%");
+                    });
             });
         }
 
