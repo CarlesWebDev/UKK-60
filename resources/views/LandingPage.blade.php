@@ -1,7 +1,7 @@
 @extends('layout.landing_layout')
 
 @section('content')
-    <nav class="bg-primary text-white sticky top-0 z-50 shadow-md">
+    <nav class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
@@ -18,7 +18,7 @@
 
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('student.login.form') }}"
-                        class="hidden md:inline-block border border-white px-5 py-2 rounded-full font-semibold hover:bg-white hover:text-primary transition duration-300">
+                        class="hidden md:inline-block border border-white px-5 py-2 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition duration-300">
                         Masuk
                     </a>
                 </div>
@@ -91,7 +91,7 @@
                             <div class="space-y-4">
                                 <div class="flex items-start">
                                     <div class="bg-blue-50 p-3 rounded-lg">
-                                        <i class="fas fa-tools text-primary"></i>
+                                        <i class="fas fa-tools text-blue-600"></i>
                                     </div>
                                     <div class="ml-4">
                                         <h4 class="font-semibold">Meja Rusak di Kelas XII</h4>
@@ -148,7 +148,7 @@
                 <div
                     class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition duration-300">
                     <div class="bg-blue-100 w-14 h-14 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-bullhorn text-primary text-2xl"></i>
+                        <i class="fas fa-bullhorn text-blue-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Pelaporan Cepat</h3>
                     <p class="text-gray-600 mb-4">Laporkan kerusakan sarana sekolah hanya dengan beberapa klik. Unggah foto
@@ -232,7 +232,7 @@
                 <div class="text-center">
                     <div class="relative">
                         <div
-                            class="bg-primary w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
+                            class="bg-blue-600 w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
                             1
                         </div>
                         <div
@@ -249,7 +249,7 @@
                 <div class="text-center">
                     <div class="relative">
                         <div
-                            class="bg-primary w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
+                            class="bg-blue-600 w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
                             2
                         </div>
                         <div
@@ -266,7 +266,7 @@
                 <div class="text-center">
                     <div class="relative">
                         <div
-                            class="bg-primary w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
+                            class="bg-blue-600 w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
                             3
                         </div>
                         <div
@@ -282,7 +282,7 @@
 
                 <div class="text-center">
                     <div
-                        class="bg-primary w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
+                        class="bg-blue-600 w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-md">
                         4
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-3">Konfirmasi Selesai</h3>
@@ -305,7 +305,7 @@
                 <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
                     <div class="flex items-center mb-6">
                         <div
-                            class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-xl">
+                            class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl">
                             SM
                         </div>
                         <div class="ml-4">
@@ -371,7 +371,7 @@
         </div>
     </section>
 
-    <section class="py-16 bg-primary">
+    <section class="py-16 bg-blue-600">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Siap Mengoptimalkan Perawatan Sarana Sekolah?</h2>
             <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">Bergabung dengan 500+ sekolah yang telah menggunakan
@@ -385,7 +385,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center space-x-2 mb-6">
-                       
+
                         <span class="text-2xl font-bold">SIPASAR</span>
                     </div>
                     <p class="text-gray-400 mb-6">Aplikasi pengaduan sarana prasarana sekolah yang memudahkan pelaporan dan
@@ -422,15 +422,15 @@
                     <h4 class="text-xl font-bold mb-6">Kontak Kami</h4>
                     <ul class="space-y-3">
                         <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                            <i class="fas fa-map-marker-alt text-blue-600 mt-1 mr-3"></i>
                             <span class="text-gray-400">Jl. Pendidikan No. 123, Jakarta Pusat</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-phone text-primary mr-3"></i>
+                            <i class="fas fa-phone text-blue-600 mr-3"></i>
                             <span class="text-gray-400">(021) 1234-5678</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-envelope text-primary mr-3"></i>
+                            <i class="fas fa-envelope text-blue-600 mr-3"></i>
                             <span class="text-gray-400">info@sekolahexample.com</span>
                         </li>
                     </ul>
@@ -440,7 +440,7 @@
                     <h4 class="text-xl font-bold mb-6">Tim Pengembang</h4>
                     <p class="text-gray-400 mb-4">Aplikasi ini dibuat dan dikembangkan dengan penuh dedikasi oleh:</p>
                     <ul class="text-gray-400 space-y-2">
-                        <li class="flex items-center"><i class="fas fa-code text-primary mr-2"></i>SMKN 4 TANGERANG</li>
+                        <li class="flex items-center"><i class="fas fa-code text-blue-600 mr-2"></i>SMKN 4 TANGERANG</li>
                     </ul>
                 </div>
             </div>
