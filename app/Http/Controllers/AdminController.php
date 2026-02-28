@@ -273,11 +273,16 @@ class AdminController extends Controller
         $adminId = auth()->guard('admin')->id();
 
         $aspirations = Aspiration::with('category')
-            ->whereHas('feedback', function ($query) use ($adminId) {
-                $query->where('admin_id', $adminId);
+            ->whereIn('status', ['completed', 'archived', 'rejected', 'progress', 'pending'])
+            ->where(function ($query) use ($adminId) {
+                $query->where('status', 'pending')
+                    ->orWhereHas('feedback', function ($q) use ($adminId) {
+                        $q->where('admin_id', $adminId);
+                    });
             })
             ->latest()
             ->paginate(5);
+
         return view('admin.history', compact('aspirations'));
     }
 

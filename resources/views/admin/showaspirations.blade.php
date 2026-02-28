@@ -132,7 +132,7 @@
                         <div class="flex justify-end pt-2">
                             <button type="submit"
                                 class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg text-sm transition shadow-sm flex items-center">
-                                <i class="fas fa-paper-plane mr-2"></i> Kirim Feedback
+                                Kirim Feedback
                             </button>
                         </div>
                     @endif
