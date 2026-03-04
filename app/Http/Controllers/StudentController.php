@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\{Aspiration, Category, student};
-
+use Illuminate\Support\Facades\Storage;
 class StudentController extends Controller
 {
     /**
@@ -148,7 +147,7 @@ class StudentController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($aspiration->photo) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($aspiration->photo);
+                Storage::disk('public')->delete($aspiration->photo);
             }
             $aspiration->photo = $request->file('photo')->store('photos', 'public');
         }

@@ -1,12 +1,12 @@
 @extends('layout.login_layout')
 
 @section('content')
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div class="w-full max-w-3xl flex flex-col md:flex-row rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
-            <div class="md:w-1/2 bg-blue-600 p-8 text-white flex flex-col justify-center relative overflow-hidden">
+    <div class="min-h-screen flex items-center justify-center md:bg-gray-50 p-4">
+        <div class="w-full max-w-3xl flex flex-col md:flex-row rounded-2xl overflow-hidden md:border md:border-gray-100 md:shadow-lg">
+            <div class="md:w-1/2 hidden bg-blue-600 p-8 text-white md:flex flex-col justify-center relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                    <div class="absolute -top-10 -left-10 w-40 h-40 bg-white rounded-full mix-blend-overlay blur-3xl"></div>
-                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white rounded-full mix-blend-overlay blur-3xl">
+                    <div class="absolute -top-10 -left-10 w-40 h-40 md:bg-white rounded-full mix-blend-overlay blur-3xl"></div>
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 md:bg-white rounded-full mix-blend-overlay blur-3xl">
                     </div>
                 </div>
 

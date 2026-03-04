@@ -55,16 +55,71 @@
                                     <div class="font-medium text-gray-900">{{ $category->category_name }}</div>
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <div class="flex justify-end gap-2">
-                                        <form action="{{ route('admin.delete.category', $category->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="p-2 text-red-600 rounded-lg cursor-pointer"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')"
-                                                title="Hapus">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    <div x-data="{ modalIsOpen: false }" class="flex justify-end items-center">
+                                        <button x-on:click="modalIsOpen = true" type="button"
+                                            class="p-2 text-red-600 rounded-lg cursor-pointer hover:bg-red-50 transition"
+                                            title="Hapus">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+
+                                        <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms
+                                            x-trap.inert.noscroll="modalIsOpen"
+                                            x-on:keydown.esc.window="modalIsOpen = false"
+                                            x-on:click.self="modalIsOpen = false"
+                                            class="fixed inset-0 z-50 flex items-end justify-center  p-4 pb-8 sm:items-center lg:p-8"
+                                            role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
+
+                                            <div x-show="modalIsOpen"
+                                                x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                                                x-transition:enter-start="opacity-0 scale-50"
+                                                x-transition:enter-end="opacity-100 scale-100"
+                                                class="flex max-w-lg w-full flex-col gap-4 overflow-hidden rounded-xl border border-gray-200 bg-white text-gray-900 text-left shadow-xl">
+
+                                                <div
+                                                    class="flex items-center justify-between border-b border-gray-200 bg-gray-50/60 p-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-red-100">
+                                                            <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                                                        </div>
+                                                        <h3 id="defaultModalTitle"
+                                                            class="font-semibold tracking-wide text-gray-900 text-lg">Hapus
+                                                            Kategori</h3>
+                                                    </div>
+                                                    <button x-on:click="modalIsOpen = false" aria-label="close modal"
+                                                        class="text-gray-400 hover:text-gray-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            aria-hidden="true" stroke="currentColor" fill="none"
+                                                            stroke-width="1.4" class="w-5 h-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+
+                                                <div class="px-4 py-6 text-left">
+                                                    <p class="text-sm text-gray-600 whitespace-normal">Apakah Anda yakin
+                                                        ingin menghapus kategori ini? Jika Anda menghapus kategori ini, data
+                                                        tidak dapat dikembalikan!</p>
+                                                </div>
+
+                                                <div
+                                                    class="flex flex-col-reverse justify-between gap-2 border-t border-gray-200 bg-gray-50 p-4 sm:flex-row sm:items-center md:justify-end">
+                                                    <button x-on:click="modalIsOpen = false" type="button"
+                                                        class="whitespace-nowrap rounded-lg px-4 py-2 text-center text-sm font-medium tracking-wide text-gray-700 bg-white border border-gray-300 transition hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:w-auto w-full">Batal</button>
+
+                                                    <form action="{{ route('admin.delete.category', $category->id) }}"
+                                                        method="POST" class="m-0 p-0 sm:w-auto w-full">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="w-full whitespace-nowrap rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Hapus</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

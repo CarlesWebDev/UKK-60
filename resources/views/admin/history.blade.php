@@ -59,7 +59,7 @@
                                 <td class="px-4 py-3 text-center">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                        {{ $aspiration->category->category_name }}
+                                        {{ $aspiration->category->category_name?? '-' }}
                                     </span>
                                 </td>
 

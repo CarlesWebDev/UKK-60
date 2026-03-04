@@ -60,7 +60,7 @@
                                 <td class="px-4 py-3 text-center">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                        {{ $aspiration->category->category_name }}
+                                        {{ $aspiration->category->category_name ?? '-' }}
                                     </span>
                                 </td>
 
@@ -99,7 +99,7 @@
                                 </td>
 
                                 <td class="px-6 py-6 relative whitespace-nowrap text-center align-middle" x-data="{ open: false }">
-                                    <div class="flex justify-center items-center relative">
+                                    <div class="flex justify-end items-end relative">
                                         <button @click="open = !open" @click.outside="open = false"
                                             class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
                                             <i class="fa-solid fa-ellipsis-vertical"></i>

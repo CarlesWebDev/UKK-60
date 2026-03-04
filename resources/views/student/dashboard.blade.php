@@ -98,24 +98,24 @@
                                 </td>
 
                                 <td class="px-4 py-3 font-medium text-gray-900 align-middle">
-                                    {{ $aspiration->title }}
+                                    {{ $aspiration->title ?? '-' }}
                                 </td>
 
                                 <td class="px-4 py-3 text-gray-500 max-w-xs truncate align-middle">
-                                    {{ $aspiration->description }}
+                                    {{ $aspiration->description ?? '-' }}
                                 </td>
 
                                 <td class="px-4 py-3 text-gray-600 align-middle">
                                     <div class="flex items-center gap-1.5">
                                         <i class="fas fa-map-marker-alt text-gray-400 text-xs"></i>
-                                        <span>{{ $aspiration->location }}</span>
+                                        <span>{{ $aspiration->location ?? '-' }}</span>
                                     </div>
                                 </td>
 
                                 <td class="px-4 py-3 text-center align-middle">
                                     <span
                                         class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                                        {{ $aspiration->category->category_name }}
+                                        {{ $aspiration->category->category_name ?? '-' }}
                                     </span>
                                 </td>
 
@@ -147,8 +147,8 @@
                                     @endif
                                 </td>
 
-                                <td class="px-4 py-3 text-center  align-middle" x-data="{ open: false }">
-                                    <div class="flex justify-end text-right align-top  relative">
+                                <td class="px-4 py-3 text-center align-middle" x-data="{ open: false, modalIsOpen: false }">
+                                    <div class="flex justify-end text-right align-top relative">
                                         <button @click="open = !open" @click.outside="open = false"
                                             class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -160,33 +160,86 @@
                                             x-transition:leave="transition ease-in duration-75"
                                             x-transition:leave-start="transform opacity-100 scale-100"
                                             x-transition:leave-end="transform opacity-0 scale-95"
-                                            class="absolute right-12 top-2 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
+                                            class="absolute right-12 top-2 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-40">
 
                                             @if ($aspiration->status === 'pending')
                                                 <a href="{{ route('student.edit.aspiration', $aspiration->id) }}"
-                                                    class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded-lg">
+                                                    class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded-t-lg">
                                                     <i class="fa-regular fa-pen-to-square"></i> Edit
                                                 </a>
                                             @endif
 
                                             @if ($aspiration->status === 'completed' || $aspiration->status === 'rejected' || $aspiration->status === 'progress')
-                                                <div class="">
-                                                    <form
-                                                        action="{{ route('student.delete.aspirations', $aspiration->id) }}"
-                                                        method="POST"
-                                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
-                                                            <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
-                                                            Hapus
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                <button type="button" @click="modalIsOpen = true; open = false"
+                                                    class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors rounded-b-lg">
+                                                    <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
+                                                    Hapus
+                                                </button>
                                             @endif
                                         </div>
                                     </div>
+
+                                    @if ($aspiration->status === 'completed' || $aspiration->status === 'rejected' || $aspiration->status === 'progress')
+                                        <div x-cloak x-show="modalIsOpen" x-transition.opacity.duration.200ms
+                                            x-trap.inert.noscroll="modalIsOpen"
+                                            x-on:keydown.esc.window="modalIsOpen = false"
+                                            x-on:click.self="modalIsOpen = false"
+                                            class="fixed inset-0 z-50 flex items-end justify-center bg-black/20 p-4 pb-8  sm:items-center lg:p-8"
+                                            role="dialog" aria-modal="true" aria-labelledby="defaultModalTitle">
+
+                                            <div x-show="modalIsOpen"
+                                                x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
+                                                x-transition:enter-start="opacity-0 scale-50"
+                                                x-transition:enter-end="opacity-100 scale-100"
+                                                class="flex max-w-lg w-full flex-col gap-4 overflow-hidden rounded-xl border border-gray-200 bg-white text-gray-900 text-left shadow-xl">
+
+                                                <div
+                                                    class="flex items-center justify-between border-b border-gray-200 bg-gray-50/60 p-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-red-100">
+                                                            <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                                                        </div>
+                                                        <h3 id="defaultModalTitle"
+                                                            class="font-semibold tracking-wide text-gray-900 text-lg">Hapus
+                                                            Aspirasi</h3>
+                                                    </div>
+                                                    <button x-on:click="modalIsOpen = false" aria-label="close modal"
+                                                        class="text-gray-400 hover:text-gray-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            aria-hidden="true" stroke="currentColor" fill="none"
+                                                            stroke-width="1.4" class="w-5 h-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+
+                                                <div class="px-4 py-6 text-left">
+                                                    <p class="text-sm text-gray-600 whitespace-normal">Apakah Anda yakin
+                                                        ingin menghapus data aspirasi ini? Jika dihapus, data tidak dapat
+                                                        dikembalikan.</p>
+                                                </div>
+
+                                                <div
+                                                    class="flex flex-col-reverse  gap-2 border-t border-gray-200 bg-gray-50 p-4 sm:flex-row sm:items-center md:justify-end">
+                                                    <button x-on:click="modalIsOpen = false" type="button"
+                                                        class="whitespace-nowrap rounded-lg px-4 py-2 text-center text-sm font-medium tracking-wide text-gray-700 bg-white border border-gray-300 transition hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:w-auto w-full">Batal</button>
+
+                                                    <form
+                                                        action="{{ route('student.delete.aspirations', $aspiration->id) }}"
+                                                        method="POST" class="m-0 p-0 sm:w-auto w-full">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="w-full whitespace-nowrap rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Hapus</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

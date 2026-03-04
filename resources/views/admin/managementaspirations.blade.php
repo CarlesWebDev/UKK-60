@@ -21,7 +21,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-search text-gray-400"></i>
                     </div>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Aspirasi..."
+                    <input type="text" name="search"  value="{{ request('search') }}" placeholder="Cari Aspirasi..."
                         class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg w-full md:w-64 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition">
                 </div>
             </form>

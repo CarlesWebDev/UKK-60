@@ -59,10 +59,10 @@ class AdminController extends Controller
             $query->whereDate('created_at', $request->date);
         }
 
-        if ($request->filled('month')) {
-            $query->whereYear('created_at', date('Y', strtotime($request->month)))
-                ->whereMonth('created_at', date('m', strtotime($request->month)));
-        }
+        // if ($request->filled('month')) {
+        //     $query->whereYear('created_at', date('Y', strtotime($request->month)))
+        //         ->whereMonth('created_at', date('m', strtotime($request->month)));
+        // }
 
         $Dataaspirations = $query->latest()->paginate(5)->withQueryString();
 
