@@ -11,7 +11,7 @@
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <h1 class="text-2xl font-bold text-gray-800">Detail Aspirasi</h1>
-            <a href="{{ route('admin.management.aspiration') }}"
+            <a href="{{ url()->previous() }}"
                 class="text-sm font-medium text-gray-500 hover:text-blue-600 transition flex items-center">
                 <i class="fas fa-arrow-left mr-2"></i> Kembali
             </a>

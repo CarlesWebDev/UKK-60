@@ -61,7 +61,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/aspirations-management', [AdminController::class, 'ManagementAspirations'])->name('management.aspiration');
     Route::get('/aspirations/{id}', [AdminController::class, 'showaspirations'])->name('show.aspirations');
     Route::post('/management/aspirations/{id}/feedback', [AdminController::class, 'storeFeedback'])->name('aspirations.feedback');
-    Route::delete('/management/aspirations/{id}', [AdminController::class, 'deleteaspiration'])->name('delete.aspiration');
+    // Route::delete('/management/aspirations/{id}', [AdminController::class, 'deleteaspiration'])->name('delete.aspiration');
+    Route::get('/history/aspirations/{id}', [AdminController::class, 'showhistoryaspiration'])->name('show.history.aspiration');
 
     Route::get('/history', [AdminController::class, 'history'])->name('history');
 

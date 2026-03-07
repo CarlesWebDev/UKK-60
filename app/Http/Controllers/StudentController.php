@@ -38,16 +38,17 @@ class StudentController extends Controller
 
         $aspirations = Aspiration::with('category')
             ->where('student_id', $studentId)
-            ->where('status', '!=', 'archived')
+            ->whereIn('status', ['pending', 'progress'])
             ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        $total      = Aspiration::where('student_id', $studentId)->where('status', '!=', 'archived')->count();
+        $total      = Aspiration::where('student_id', $studentId)->whereIn('status', ['pending', 'progress', 'completed'])->count();
         $progress   = Aspiration::where('student_id', $studentId)->whereIn('status', ['pending', 'progress'])->count();
         $completed  = Aspiration::where('student_id', $studentId)->where('status', 'completed')->count();
+        $rejected   = Aspiration::where('student_id', $studentId)->where('status', 'rejected')->count();
 
-        return view('student.dashboard', compact('aspirations', 'total', 'progress', 'completed'));
+        return view('student.dashboard', compact('aspirations', 'total', 'progress', 'completed', 'rejected'));
     }
 
     public function History()
@@ -56,6 +57,7 @@ class StudentController extends Controller
 
         $aspirations = Aspiration::with('category')
             ->where('student_id', $studentId)
+            ->whereIn('status', ['completed', 'rejected'])
             ->latest()
             ->paginate(5)
             ->withQueryString();
@@ -69,18 +71,18 @@ class StudentController extends Controller
         return view('student.showhistoryaspirations', compact('aspiration'));
     }
 
-    public function deleteaspirations($id)
-    {
-        $aspiration = Aspiration::findOrFail($id);
+    // public function deleteaspirations($id)
+    // {
+    //     $aspiration = Aspiration::findOrFail($id);
 
-        if ($aspiration->status === 'completed') {
-            $aspiration->update(['status' => 'archived']);
-        } else {
-            $aspiration->delete();
-        }
+    //     if ($aspiration->status === 'completed') {
+    //         $aspiration->update(['status' => 'archived']);
+    //     } else {
+    //         $aspiration->delete();
+    //     }
 
-        return redirect()->route('student.dashboard')->with('success', 'Aspirasi berhasil dihapus dari dashboard.');
-    }
+    //     return redirect()->route('student.dashboard')->with('success', 'Aspirasi berhasil dihapus dari dashboard.');
+    // }
 
 
     /**

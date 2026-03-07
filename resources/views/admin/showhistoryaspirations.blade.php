@@ -1,11 +1,11 @@
-@extends('layout.appstudent')
+@extends('layout.appadmin')
 
 @section('content')
     <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 font-sans">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900">Detail dan Progress Aspirasi</h2>
-                <p class="text-sm text-gray-500 mt-1">Pantau status dan tindak lanjut dari laporan Anda.</p>
+                <p class="text-sm text-gray-500 mt-1">Pantau status dan berikan tindak lanjut untuk laporan yang masuk.</p>
             </div>
             <a href="{{ url()->previous() }}" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors">
                 <svg class="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

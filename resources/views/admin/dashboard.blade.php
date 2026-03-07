@@ -111,9 +111,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @forelse ($Dataaspirations as $aspiration)
-                    @php
-                        $displayStatus = $aspiration->status === 'archived' ? 'completed' : $aspiration->status;
-                    @endphp
                     <div
                         class="bg-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md hover:border-blue-300 transition duration-200 p-5 flex flex-col justify-between h-full">
                         <div>
@@ -128,20 +125,20 @@
 
                                 <span
                                     class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border
-                                    @if ($displayStatus == 'pending') bg-gray-100 text-gray-600 border-gray-200
-                                    @elseif($displayStatus == 'progress') bg-blue-50 text-blue-700 border-blue-100
-                                    @elseif($displayStatus == 'completed') bg-green-50 text-green-700 border-green-100
-                                    @elseif($displayStatus == 'rejected') bg-red-50 text-red-700 border-red-100
+                                    @if ($aspiration->status == 'pending') bg-gray-100 text-gray-600 border-gray-200
+                                    @elseif($aspiration->status == 'progress') bg-blue-50 text-blue-700 border-blue-100
+                                    @elseif($aspiration->status == 'completed') bg-green-50 text-green-700 border-green-100
+                                    @elseif($aspiration->status == 'rejected') bg-red-50 text-red-700 border-red-100
                                     @else bg-gray-100 text-gray-600 border-gray-200 @endif">
                                     <span
                                         class="w-1.5 h-1.5 me-1.5 rounded-full
-                                        @if ($displayStatus == 'pending') bg-gray-400
-                                        @elseif($displayStatus == 'progress') bg-blue-600
-                                        @elseif($displayStatus == 'completed') bg-green-600
-                                        @elseif($displayStatus == 'rejected') bg-red-600
+                                        @if ($aspiration->status == 'pending') bg-gray-400
+                                        @elseif($aspiration->status == 'progress') bg-blue-600
+                                        @elseif($aspiration->status == 'completed') bg-green-600
+                                        @elseif($aspiration->status == 'rejected') bg-red-600
                                         @else bg-gray-400 @endif">
                                     </span>
-                                    {{ ucfirst($displayStatus) }}
+                                    {{ ucfirst($aspiration->status) }}
                                 </span>
                             </div>
 
@@ -169,7 +166,7 @@
                 @empty
                     <div class="col-span-full bg-white p-8 text-center rounded-xl border border-gray-100">
                         <i class="fa-regular fa-folder-open text-4xl mb-3 text-gray-300"></i>
-                        <p class="text-gray-500 text-sm">Belum ada data aspirasi yang ditemukan untuk filter ini.</p>
+                        <p class="text-gray-500 text-sm">Belum ada data aspirasi yang ditemukan.</p>
                     </div>
                 @endforelse
             </div>

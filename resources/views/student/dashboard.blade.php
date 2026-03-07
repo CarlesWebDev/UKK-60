@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between">
                 <div>
                     <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Total Aspirasi</p>
@@ -45,8 +45,17 @@
                     <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Selesai</p>
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ $completed }}</p>
                 </div>
-                <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                <div class="p-3 bg-blue-50 rounded-lg text-green-600">
                     <i class="fas fa-check-circle text-xl"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Ditolak</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ $rejected }}</p>
+                </div>
+                <div class="p-3 bg-blue-50 rounded-lg text-red-600">
+                    <i class="fas fa-times-circle text-xl"></i>
                 </div>
             </div>
         </div>
@@ -62,7 +71,7 @@
         <div class="bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-gray-100 bg-gray-50/50">
                 <h2 class="text-sm font-bold text-gray-800 uppercase tracking-wide">
-                    Laporan Aspirasi
+                    Laporan Aspirasi Terakhir
                 </h2>
             </div>
 
@@ -149,11 +158,18 @@
 
                                 <td class="px-4 py-3 text-center align-middle" x-data="{ open: false, modalIsOpen: false }">
                                     <div class="flex justify-end text-right align-top relative">
-                                        <button @click="open = !open" @click.outside="open = false"
-                                            class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                        </button>
-
+                                        @if ($aspiration->status === 'progress')
+                                            <div class="disabled">
+                                                <button class="text-gray-400 cursor-not-allowed p-2 rounded-full">
+                                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                </button>
+                                            </div>
+                                        @elseif ($aspiration->status === 'pending')
+                                            <button @click="open = !open" @click.outside="open = false"
+                                                class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                            </button>
+                                        @endif
                                         <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100"
                                             x-transition:enter-start="transform opacity-0 scale-95"
                                             x-transition:enter-end="transform opacity-100 scale-100"
@@ -170,11 +186,11 @@
                                             @endif
 
                                             @if ($aspiration->status === 'completed' || $aspiration->status === 'rejected' || $aspiration->status === 'progress')
-                                                <button type="button" @click="modalIsOpen = true; open = false"
+                                                {{-- <button type="button" @click="modalIsOpen = true; open = false"
                                                     class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors rounded-b-lg">
                                                     <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
                                                     Hapus
-                                                </button>
+                                                </button> --}}
                                             @endif
                                         </div>
                                     </div>

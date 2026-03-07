@@ -21,6 +21,7 @@
                             <th class="px-4 py-3">Lokasi</th>
                             <th class="px-4 py-3 text-center">Kategori</th>
                             <th class="px-4 py-3 text-center">Status</th>
+                            <th class="px-4 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
 
@@ -88,16 +89,10 @@
                                             <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                                             rejected
                                         </span>
-                                    @elseif ($aspiration->status == 'archived')
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                                            archived
-                                        </span>
                                     @endif
                                 </td>
 
-                                {{-- <td class="px-4 py-3 text-center align-middle" x-data="{ open: false }">
+                                <td class="px-4 py-3 text-center align-middle" x-data="{ open: false }">
                                     <div class="flex justify-center items-center relative">
                                         <button @click="open = !open" @click.outside="open = false"
                                             class="text-gray-500 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-gray-100 transition">
@@ -112,14 +107,14 @@
                                             x-transition:leave-end="transform opacity-0 scale-95"
                                             class="absolute right-4 top-full mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
 
-                                            <a href="{{ route('student.show.history.aspiration', $aspiration->id) }}"
+                                            <a href="{{ route('admin.show.history.aspiration', $aspiration->id) }}"
                                                 class="group  items-center p-2  text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex ">
                                                 <i class="fa-solid fa-eye mr-3 text-blue-500 group-hover:text-blue-600"></i>
                                                  Detail
                                             </a>
                                         </div>
                                     </div>
-                                </td> --}}
+                                </td>
                             </tr>
                         @empty
                             <tr>

@@ -89,12 +89,6 @@
                                             <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                                             rejected
                                         </span>
-                                    @elseif ($aspiration->status == 'archived')
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                                            archived
-                                        </span>
                                     @endif
                                 </td>
 

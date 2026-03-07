@@ -8,7 +8,7 @@
                 <h1 class="text-2xl font-bold text-gray-800">Edit Siswa</h1>
                 <p class="text-gray-500 text-sm mt-1">Perbarui informasi siswa dalam sistem</p>
             </div>
-            <a href="{{ route('admin.user.management') }}" class="text-sm font-medium text-gray-500 hover:text-blue-600 transition">
+            <a href="{{ url()->previous() }}" class="text-sm font-medium text-gray-500 hover:text-blue-600 transition">
                 <i class="fas fa-arrow-left mr-2"></i> Kembali
             </a>
         </div>

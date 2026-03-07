@@ -37,15 +37,13 @@ class AdminController extends Controller
     {
         $total = Aspiration::count();
         $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
-        $aspirationdone = Aspiration::whereIn('status', ['completed', 'archived'])->count();
-
-        $Dataaspirations = Aspiration::with(['student', 'category'])->latest()->paginate(5)->withQueryString();
+        $aspirationdone = Aspiration::whereIn('status', ['completed'])->count();
         $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
 
         $categories = Category::all();
         $students = Student::all();
 
-        $query = Aspiration::with(['student', 'category']);
+        $query = Aspiration::with(['student', 'category'])->whereIn('status', ['pending', 'progress']);
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -170,14 +168,21 @@ class AdminController extends Controller
 
     public function ManagementAspirations(Request $request)
     {
-        $query = Aspiration::with(['student', 'category']);
+        $categories = Category::all();
+
+        $query = Aspiration::with(['student', 'category'])
+            ->whereIn('status', ['pending', 'progress',]);
 
         if ($request->filled('status')) {
-            if ($request->status === 'completed') {
-                $query->whereIn('status', ['completed', 'archived']);
-            } else {
-                $query->where('status', $request->status);
-            }
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
         }
 
         if ($request->filled('search')) {
@@ -186,25 +191,28 @@ class AdminController extends Controller
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhere('created_at', 'like', "%{$search}%")
                     ->orWhereHas('student', function ($studentQuery) use ($search) {
-                        $studentQuery->where('name', 'like', "%{$search}%")
-                            ->orWhere('nisn', 'like', "%{$search}%");
-                    })
-                    ->orWhereHas('category', function ($categoryQuery) use ($search) {
-                        $categoryQuery->where('category_name', 'like', "%{$search}%");
+                        $studentQuery->where('name', 'like', "%{$search}%");
                     });
             });
         }
 
-        $aspirations = $query->latest()->paginate(5)->withQueryString();
-        return view('admin.managementaspirations', compact('aspirations'));
-    }
+        $aspirations = $query->latest()
+            ->paginate(5)
+            ->withQueryString();
 
+        return view('admin.managementaspirations', compact('aspirations', 'categories'));
+    }
     public function showaspirations($id)
     {
         $aspiration = Aspiration::with(['student', 'category', 'feedback'])->findOrFail($id);
         return view('admin.showaspirations', compact('aspiration'));
+    }
+
+    public function showhistoryaspiration($id)
+    {
+        $aspiration = Aspiration::with(['student', 'category', 'feedback'])->findOrFail($id);
+        return view('admin.showhistoryaspirations', compact('aspiration'));
     }
 
     public function storeFeedback(Request $request, $id)
@@ -273,7 +281,7 @@ class AdminController extends Controller
         $adminId = auth()->guard('admin')->id();
 
         $aspirations = Aspiration::with('category')
-            ->whereIn('status', ['completed', 'archived', 'rejected', 'progress', 'pending'])
+            ->whereIn('status', ['completed', 'rejected'])
             ->where(function ($query) use ($adminId) {
                 $query->where('status', 'pending')
                     ->orWhereHas('feedback', function ($q) use ($adminId) {
