@@ -37,7 +37,7 @@ class AdminController extends Controller
     {
         $total = Aspiration::count();
         $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
-        $aspirationdone = Aspiration::whereIn('status', ['completed'])->count();
+        $aspirationdone = Aspiration::where('status', ['completed'])->count();
         $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
 
         $categories = Category::all();
@@ -63,6 +63,7 @@ class AdminController extends Controller
         // }
 
         $Dataaspirations = $query->latest()->paginate(5)->withQueryString();
+
 
         return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations', 'categories', 'students'));
     }
@@ -217,10 +218,10 @@ class AdminController extends Controller
 
     public function storeFeedback(Request $request, $id)
     {
-        $request->validate(array(
+        $request->validate([
             'status' => 'required|in:pending,progress,completed,rejected',
             'information' => 'required|string',
-        ));
+        ]);
 
         $aspiration = Aspiration::findOrFail($id);
         $adminId = auth()->guard('admin')->id();
@@ -242,13 +243,13 @@ class AdminController extends Controller
         return redirect()->route('admin.management.aspiration')->with('success', 'Status dan feedback berhasil diperbarui.');
     }
 
-    public function deleteaspiration($id)
-    {
-        $aspiration = Aspiration::findOrFail($id);
-        $aspiration->delete();
+    // public function deleteaspiration($id)
+    // {
+    //     $aspiration = Aspiration::findOrFail($id);
+    //     $aspiration->delete();
 
-        return redirect()->route('admin.management.aspiration')->with('success', 'Aspiration deleted successfully.');
-    }
+    //     return redirect()->route('admin.management.aspiration')->with('success', 'Aspiration deleted successfully.');
+    // }
     public function createcategory()
     {
         return view('admin.createcategory');

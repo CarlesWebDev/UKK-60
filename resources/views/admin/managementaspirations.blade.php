@@ -34,7 +34,7 @@
                 <div class="w-full md:w-auto">
                     <select name="status" onchange="this.form.submit()"
                         class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none min-w-[150px] transition-colors">
-                        <option value="">Semua (Aktif)</option>
+                        <option value="">Semua</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                         <option value="progress" {{ request('status') == 'progress' ? 'selected' : '' }}>Progress</option>
                     </select>

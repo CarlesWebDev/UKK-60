@@ -89,6 +89,8 @@
                         </tr>
                     </thead>
 
+
+
                     <tbody class="divide-y divide-gray-50">
                         @forelse ($aspirations as $aspiration)
                             <tr class="hover:bg-blue-50/30 transition">
@@ -159,10 +161,25 @@
                                 <td class="px-4 py-3 text-center align-middle" x-data="{ open: false, modalIsOpen: false }">
                                     <div class="flex justify-end text-right align-top relative">
                                         @if ($aspiration->status === 'progress')
-                                            <div class="disabled">
-                                                <button class="text-gray-400 cursor-not-allowed p-2 rounded-full">
+                                            <div class="flex justify-center items-center">
+                                                <button @click="open = !open" @click.outside="open = false"
+                                                    class="text-gray-400 hover:text-blue-600 focus:outline-none p-2 rounded-full hover:bg-blue-50 transition-colors">
                                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                                 </button>
+
+                                                <div x-show="open" x-cloak
+                                                    x-transition:enter="transition ease-out duration-100"
+                                                    x-transition:enter-start="transform opacity-0 scale-95"
+                                                    x-transition:enter-end="transform opacity-100 scale-100"
+                                                    x-transition:leave="transition ease-in duration-75"
+                                                    x-transition:leave-start="transform opacity-100 scale-100"
+                                                    x-transition:leave-end="transform opacity-0 scale-95"
+                                                    class="absolute right-10 top-1/2 -translate-y-1/2 w-32 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                                                    <a href="{{ route('student.show.history.aspiration', $aspiration->id) }}"
+                                                        class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors rounded-lg m-1">
+                                                        <i class="fa-regular fa-eye"></i> Detail
+                                                    </a>
+                                                </div>
                                             </div>
                                         @elseif ($aspiration->status === 'pending')
                                             <button @click="open = !open" @click.outside="open = false"
@@ -183,14 +200,6 @@
                                                     class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition rounded-t-lg">
                                                     <i class="fa-regular fa-pen-to-square"></i> Edit
                                                 </a>
-                                            @endif
-
-                                            @if ($aspiration->status === 'completed' || $aspiration->status === 'rejected' || $aspiration->status === 'progress')
-                                                {{-- <button type="button" @click="modalIsOpen = true; open = false"
-                                                    class="group flex w-full items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors rounded-b-lg">
-                                                    <i class="fa-solid fa-trash mr-3 group-hover:text-red-700"></i>
-                                                    Hapus
-                                                </button> --}}
                                             @endif
                                         </div>
                                     </div>
