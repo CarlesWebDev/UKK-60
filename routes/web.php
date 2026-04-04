@@ -30,7 +30,7 @@ Route::middleware('auth:student')->prefix('student')->name('student.')->group(fu
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
     Route::get('/createaspiration', [StudentController::class, 'createaspiration'])->name('create.aspiration');
     Route::post('/storeaspirations', [StudentController::class, 'storeaspirations'])->name('storeaspirations');
-    Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
+    // Route::delete('/aspirations/{id}', [StudentController::class, 'deleteaspirations'])->name('delete.aspirations');
     Route::get('/aspirations/{id}/edit', [StudentController::class, 'editaspiration'])->name('edit.aspiration');
     Route::put('/aspirations/{id}', [StudentController::class, 'updateaspiration'])->name('update.aspiration');
     Route::get('/aspirations/{id}', [StudentController::class, 'showhistoryaspirations'])->name('show.history.aspiration');

@@ -69,7 +69,7 @@
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi Lengkap</label>
                     <textarea name="description" id="description" rows="4"
                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 shadow-sm @error('description') border-red-500 @enderror"
-                        placeholder="Jelaskan detail permasalahan..."></textarea>
+                        placeholder="Jelaskan detail permasalahan...">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror

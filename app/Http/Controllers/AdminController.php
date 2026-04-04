@@ -33,62 +33,116 @@ class AdminController extends Controller
     }
 
 
+    // public function dashboard(Request $request)
+    // {
+    //     $total = Aspiration::count();
+    //     $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
+    //     $aspirationdone = Aspiration::where('status', ['completed'])->count();
+    //     $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
+
+    //     $categories = Category::all();
+    //     $students = Student::all();
+
+    //     $query = Aspiration::with(['student', 'category'])->whereIn('status', ['pending', 'progress']);
+
+    //     if ($request->filled('category_id')) {
+    //         $query->where('category_id', $request->category_id);
+    //     }
+
+    //     if ($request->filled('student_id')) {
+    //         $query->where('student_id', $request->student_id);
+    //     }
+
+    //     if ($request->filled('date')) {
+    //         $query->whereDate('created_at', $request->date);
+    //     }
+
+    //     // if ($request->filled('month')) {
+    //     //     $query->whereYear('created_at', date('Y', strtotime($request->month)))
+    //     //         ->whereMonth('created_at', date('m', strtotime($request->month)));
+    //     // }
+
+    //     $Dataaspirations = $query->latest()->paginate(5)->withQueryString();
+
+
+    //     return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations', 'categories', 'students'));
+    // }
+
+
+
     public function dashboard(Request $request)
     {
         $total = Aspiration::count();
         $proccessingaspirations = Aspiration::whereIn('status', ['pending', 'progress'])->count();
-        $aspirationdone = Aspiration::where('status', ['completed'])->count();
+        $aspirationdone = Aspiration::where('status', 'completed')->count();
         $rejectedAspirations = Aspiration::where('status', 'rejected')->count();
 
         $categories = Category::all();
         $students = Student::all();
 
-        $query = Aspiration::with(['student', 'category'])->whereIn('status', ['pending', 'progress']);
-
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        if ($request->filled('student_id')) {
-            $query->where('student_id', $request->student_id);
-        }
-
-        if ($request->filled('date')) {
-            $query->whereDate('created_at', $request->date);
-        }
-
-        // if ($request->filled('month')) {
-        //     $query->whereYear('created_at', date('Y', strtotime($request->month)))
-        //         ->whereMonth('created_at', date('m', strtotime($request->month)));
-        // }
-
-        $Dataaspirations = $query->latest()->paginate(5)->withQueryString();
-
+        $Dataaspirations = Aspiration::with(['student', 'category'])
+            ->whereIn('status', ['pending', 'progress'])
+            ->when($request->category_id, function ($q, $categoryId) {
+                $q->where('category_id', $categoryId);
+            })
+            ->when($request->student_id, function ($q, $studentId) {
+                $q->where('student_id', $studentId);
+            })
+            ->when($request->date, function ($q, $date) {
+                $q->whereDate('created_at', $date);
+            })
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
 
         return view('admin.dashboard', compact('total', 'proccessingaspirations', 'aspirationdone', 'Dataaspirations', 'rejectedAspirations', 'categories', 'students'));
     }
 
-    public function UserManagement(Request $request)
+    // public function UserManagement(Request $request)
+    // {
+    //     $query = Student::query();
+
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('name', 'like', "%{$search}%")
+    //                 ->orWhere('nisn', 'like', "%{$search}%");
+    //         });
+    //     }
+
+    //     if ($request->filled('grade') && $request->grade !== 'Semua Kelas') {
+    //         $query->where('grade', $request->grade);
+    //     }
+
+    //     $grades = Student::select('grade')->distinct()->orderBy('grade', 'asc')->pluck('grade');
+
+    //     $students = $query->latest()->paginate(5)->withQueryString();
+    //     $totalStudents = Student::count();
+    //     $totalClasses = Student::distinct('grade')->count('grade');
+
+    //     return view('admin.userManagement', compact('students', 'totalStudents', 'totalClasses', 'grades'));
+    // }
+
+
+    public function userManagement(Request $request)
     {
-        $query = Student::query();
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('nisn', 'like', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('grade') && $request->grade !== 'Semua Kelas') {
-            $query->where('grade', $request->grade);
-        }
-
         $grades = Student::select('grade')->distinct()->orderBy('grade', 'asc')->pluck('grade');
-
-        $students = $query->latest()->paginate(5)->withQueryString();
         $totalStudents = Student::count();
         $totalClasses = Student::distinct('grade')->count('grade');
+
+        $students = Student::query()
+            ->when($request->search, function ($q, $search) {
+                $q->where(function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', "%{$search}%")
+                        ->orWhere('nisn', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->grade !== 'Semua Kelas' ? $request->grade : null, function ($q, $grade) {
+                $q->where('grade', $grade);
+            })
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
 
         return view('admin.userManagement', compact('students', 'totalStudents', 'totalClasses', 'grades'));
     }
@@ -167,43 +221,77 @@ class AdminController extends Controller
         return redirect()->route('admin.user.management')->with('success', 'Student deleted successfully.');
     }
 
-    public function ManagementAspirations(Request $request)
+    // public function ManagementAspirations(Request $request)
+    // {
+    //     $categories = Category::all();
+
+    //     $query = Aspiration::with(['student', 'category'])
+    //         ->whereIn('status', ['pending', 'progress',]);
+
+    //     if ($request->filled('status')) {
+    //         $query->where('status', $request->status);
+    //     }
+
+    //     if ($request->filled('category_id')) {
+    //         $query->where('category_id', $request->category_id);
+    //     }
+
+    //     if ($request->filled('date')) {
+    //         $query->whereDate('created_at', $request->date);
+    //     }
+
+    //     if ($request->filled('search')) {
+    //         $search = $request->search;
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('title', 'like', "%{$search}%")
+    //                 ->orWhere('description', 'like', "%{$search}%")
+    //                 ->orWhere('location', 'like', "%{$search}%")
+    //                 ->orWhereHas('student', function ($studentQuery) use ($search) {
+    //                     $studentQuery->where('name', 'like', "%{$search}%");
+    //                 });
+    //         });
+    //     }
+
+    //     $aspirations = $query->latest()
+    //         ->paginate(5)
+    //         ->withQueryString();
+
+    //     return view('admin.managementaspirations', compact('aspirations', 'categories'));
+    // }
+
+
+    public function managementAspirations(Request $request)
     {
         $categories = Category::all();
 
-        $query = Aspiration::with(['student', 'category'])
-            ->whereIn('status', ['pending', 'progress',]);
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        if ($request->filled('date')) {
-            $query->whereDate('created_at', $request->date);
-        }
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhereHas('student', function ($studentQuery) use ($search) {
-                        $studentQuery->where('name', 'like', "%{$search}%");
-                    });
-            });
-        }
-
-        $aspirations = $query->latest()
+        $aspirations = Aspiration::with(['student', 'category'])
+            ->whereIn('status', ['pending', 'progress'])
+            ->when($request->status, function ($q, $status) {
+                $q->where('status', $status);
+            })
+            ->when($request->category_id, function ($q, $categoryId) {
+                $q->where('category_id', $categoryId);
+            })
+            ->when($request->date, function ($q, $date) {
+                $q->whereDate('created_at', $date);
+            })
+            ->when($request->search, function ($q, $search) {
+                $q->where(function ($subQuery) use ($search) {
+                    $subQuery->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+                        ->orWhere('location', 'like', "%{$search}%")
+                        ->orWhereHas('student', function ($s) use ($search) {
+                            $s->where('name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        return view('admin.managementaspirations', compact('aspirations', 'categories'));
+        return view('admin.managementaspirations', compact('categories', 'aspirations'));
     }
+
     public function showaspirations($id)
     {
         $aspiration = Aspiration::with(['student', 'category', 'feedback'])->findOrFail($id);
@@ -216,32 +304,32 @@ class AdminController extends Controller
         return view('admin.showhistoryaspirations', compact('aspiration'));
     }
 
-    public function storeFeedback(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:pending,progress,completed,rejected',
-            'information' => 'required|string',
-        ]);
+    // public function storeFeedback(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'status' => 'required|in:pending,progress,completed,rejected',
+    //         'information' => 'required|string',
+    //     ]);
 
-        $aspiration = Aspiration::findOrFail($id);
-        $adminId = auth()->guard('admin')->id();
+    //     $aspiration = Aspiration::findOrFail($id);
+    //     $adminId = auth()->guard('admin')->id();
 
-        if ($aspiration->feedback_id) {
-            $feedback = feedback::findOrFail($aspiration->feedback_id);
-        } else {
-            $feedback = new feedback();
-        }
+    //     if ($aspiration->feedback_id) {
+    //         $feedback = feedback::findOrFail($aspiration->feedback_id);
+    //     } else {
+    //         $feedback = new feedback();
+    //     }
 
-        $feedback->information = $request->information;
-        $feedback->admin_id = $adminId;
-        $feedback->save();
+    //     $feedback->information = $request->information;
+    //     $feedback->admin_id = $adminId;
+    //     $feedback->save();
 
-        $aspiration->feedback_id = $feedback->id;
-        $aspiration->status = $request->status;
-        $aspiration->save();
+    //     $aspiration->feedback_id = $feedback->id;
+    //     $aspiration->status = $request->status;
+    //     $aspiration->save();
 
-        return redirect()->route('admin.management.aspiration')->with('success', 'Status dan feedback berhasil diperbarui.');
-    }
+    //     return redirect()->route('admin.management.aspiration')->with('success', 'Status dan feedback berhasil diperbarui.');
+    // }
 
     // public function deleteaspiration($id)
     // {
@@ -250,6 +338,28 @@ class AdminController extends Controller
 
     //     return redirect()->route('admin.management.aspiration')->with('success', 'Aspiration deleted successfully.');
     // }
+
+
+    public function storeFeedback(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,progress,completed,rejected',
+            'information' => 'required|string',
+        ]);
+
+        $aspiration = Aspiration::findOrFail($id);
+
+        $feedback = feedback::findOrNew($aspiration->feedback_id);
+        $feedback->information = $request->information;
+        $feedback->admin_id = auth()->guard('admin')->id();
+        $feedback->save();
+
+        $aspiration->feedback_id = $feedback->id;
+        $aspiration->status = $request->status;
+        $aspiration->save();
+
+        return redirect()->route('admin.management.aspiration')->with('success', 'Status dan feedback berhasil diperbarui.');
+    }
     public function createcategory()
     {
         return view('admin.createcategory');

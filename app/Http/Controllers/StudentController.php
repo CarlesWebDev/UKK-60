@@ -29,7 +29,7 @@ class StudentController extends Controller
         }
         return back()->withErrors([
             'nisn' => 'The provided credentials do not match our records.',
-        ])->onlyInput('nis');
+        ])->onlyInput('nisn');
     }
 
     public function dashboard()
@@ -169,6 +169,8 @@ class StudentController extends Controller
 
     //     return redirect()->route('student.dashboard')->with('success', 'Aspirations deleted successfully.');
     // }
+
+
     public function logout(Request $request)
     {
         auth()->guard('student')->logout();
