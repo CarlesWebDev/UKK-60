@@ -61,11 +61,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm6 2a1 1 0 00-2 0v8a1 1 0 002 0V8zm4 4a1 1 0 10-2 0v4a1 1 0 002 0v-4zm3-2a1 1 0 112 0v6a1 1 0 11-2 0V10z"
-                                clip-rule="evenodd" />
-                        </svg>
+                       <i class="fa-solid fa-gauge"></i>
                     </div>
                     <span class="ms-3 font-medium">Dashboard</span>
                 </a>
@@ -98,7 +94,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.management.aspiration') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.management.aspiration') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                        <i class="fa-solid fa-list"></i>
+                        <i class="fa-brands fa-buffer"></i>
                     </div>
                     <span class="ms-3 font-medium">Management Aspiration</span>
                 </a>

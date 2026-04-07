@@ -54,7 +54,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/category-management', [AdminController::class, 'CategoryManagement'])->name('category.management');
     Route::post('/categories', [AdminController::class, 'storecategory'])->name('store.category');
     Route::get('/categories/create', [AdminController::class, 'createcategory'])->name('create.category');
-    Route::put('/categories/{id}', [AdminController::class, 'updatecategory'])->name('update.category');
+    // Route::put('/categories/{id}', [AdminController::class, 'updatecategory'])->name('update.category');
     route::delete('/categories/{id}', [AdminController::class, 'deletecategory'])->name('delete.category');
 
 

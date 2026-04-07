@@ -246,7 +246,7 @@
                                                         dikembalikan.</p>
                                                 </div>
 
-                                                <div
+                                                {{-- <div
                                                     class="flex flex-col-reverse  gap-2 border-t border-gray-200 bg-gray-50 p-4 sm:flex-row sm:items-center md:justify-end">
                                                     <button x-on:click="modalIsOpen = false" type="button"
                                                         class="whitespace-nowrap rounded-lg px-4 py-2 text-center text-sm font-medium tracking-wide text-gray-700 bg-white border border-gray-300 transition hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:w-auto w-full">Batal</button>
@@ -259,7 +259,7 @@
                                                         <button type="submit"
                                                             class="w-full whitespace-nowrap rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Hapus</button>
                                                     </form>
-                                                </div>
+                                                </div> --}}
 
                                             </div>
 
