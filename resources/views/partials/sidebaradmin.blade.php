@@ -4,18 +4,19 @@
             <div class="flex items-center justify-start rtl:justify-end">
                 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-gray-500 rounded-lg sm:hidden hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors duration-200">
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
                     <span class="sr-only">Open sidebar</span>
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path clip-rule="evenodd" fill-rule="evenodd"
                             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
                         </path>
                     </svg>
                 </button>
-                <a href="{{ route('admin.dashboard') }}" class="flex ms-2  items-center">
+                <a href="{{ route('admin.dashboard') }}" class="flex ms-2 md:me-24">
+
                     <span
-                        class="self-center text-xl  whitespace-nowrap font-sans font-bold text-blue-500">SIPASAR
-                    </span>
+                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap  text-blue-500">SIPASAR</span>
                 </a>
             </div>
             <div class="flex items-center gap-4">
@@ -61,7 +62,7 @@
                     class="flex items-center p-3 rounded-lg group transition-colors duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <div
                         class="flex items-center justify-center w-6 h-6 {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600' }} transition-colors duration-200">
-                       <i class="fa-solid fa-gauge"></i>
+                        <i class="fa-solid fa-gauge"></i>
                     </div>
                     <span class="ms-3 font-medium">Dashboard</span>
                 </a>
