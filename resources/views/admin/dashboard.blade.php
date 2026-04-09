@@ -95,7 +95,6 @@
                         @endforeach
                     </select>
 
-
                     <input type="date" name="date" value="{{ request('date') }}" onchange="this.form.submit()"
                         title="Filter per Tanggal"
                         class="w-full sm:w-auto bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none hover:bg-white transition">
@@ -123,23 +122,27 @@
                                     </p>
                                 </div>
 
-                                <span
-                                    class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border
-                                    @if ($aspiration->status == 'pending') bg-gray-100 text-gray-600 border-gray-200
-                                    @elseif($aspiration->status == 'progress') bg-blue-50 text-blue-700 border-blue-100
-                                    @elseif($aspiration->status == 'completed') bg-green-50 text-green-700 border-green-100
-                                    @elseif($aspiration->status == 'rejected') bg-red-50 text-red-700 border-red-100
-                                    @else bg-gray-100 text-gray-600 border-gray-200 @endif">
+                                @if ($aspiration->status === 'pending')
                                     <span
-                                        class="w-1.5 h-1.5 me-1.5 rounded-full
-                                        @if ($aspiration->status == 'pending') bg-gray-400
-                                        @elseif($aspiration->status == 'progress') bg-blue-600
-                                        @elseif($aspiration->status == 'completed') bg-green-600
-                                        @elseif($aspiration->status == 'rejected') bg-red-600
-                                        @else bg-gray-400 @endif">
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-600 border border-orange-100">
+                                        {{ ucfirst($aspiration->status) }}
                                     </span>
-                                    {{ ucfirst($aspiration->status) }}
-                                </span>
+                                @elseif ($aspiration->status === 'progress')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-600 border border-purple-100">
+                                        {{ ucfirst($aspiration->status) }}
+                                    </span>
+                                @elseif ($aspiration->status === 'completed')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100">
+                                        {{ ucfirst($aspiration->status) }}
+                                    </span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-600 border border-red-100">
+                                        {{ ucfirst($aspiration->status) }}
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="mb-4">
