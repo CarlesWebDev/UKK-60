@@ -1,9 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\{DB, Hash, Schema};
 use Illuminate\Database\Seeder;
 class AdminSeeder extends Seeder
 {
@@ -15,7 +13,7 @@ class AdminSeeder extends Seeder
         //
         DB::table('admins')->insert([
             'email' => 'admin1@example.com',
-            'name' => 'Pria Solo',
+            'name' => 'Pahlevi',
             'password' => Hash::make('adminexample123'),
             'created_at' => now(),
             'updated_at' => now(),
